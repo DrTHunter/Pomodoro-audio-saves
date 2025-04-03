@@ -571,9 +571,30 @@
             color: #673ab7;
         }
         
-        .volume-control {
-            width: 100%;
+        .sound-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             margin-top: 15px;
+        }
+        
+        .sound-toggle-btn {
+            background: none;
+            border: none;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .sound-toggle-btn:hover {
+            background-color: rgba(0,0,0,0.1);
         }
         
         /* Music Panel Specific */
@@ -731,7 +752,10 @@
         <div class="sound-option" data-sound="library">📚 Library</div>
         <div class="sound-option" data-sound="rainroof">☔ Rain on Roof</div>
         
-        <input type="range" min="0" max="1" step="0.1" value="0.5" class="volume-control" id="volumeControl">
+        <div class="sound-controls">
+            <input type="range" min="0" max="1" step="0.1" value="0.5" class="volume-control" id="volumeControl">
+            <button id="soundToggle" class="sound-toggle-btn">▶️</button>
+        </div>
         <div style="text-align: center;">Volume</div>
     </div>
 
@@ -1506,7 +1530,9 @@
                 
                 // Volume control
                 const volumeControl = document.getElementById('volumeControl');
-                
+                const soundToggle = document.getElementById('soundToggle');
+                let currentSound = null;
+
                 // Initialize audio elements with default volume
                 document.querySelectorAll('audio').forEach(audio => {
                     audio.volume = 0.5;
@@ -1570,25 +1596,56 @@
                 document.querySelectorAll('.sound-option').forEach(option => {
                     option.addEventListener('click', () => {
                         const soundType = option.getAttribute('data-sound');
-                        const soundElement = document.getElementById(`${soundType}Sound`);
+                        currentSound = document.getElementById(`${soundType}Sound`);
                         
                         // Stop all other sounds
                         document.querySelectorAll('audio').forEach(audio => {
-                            if (audio !== soundElement && audio !== DOM.alarmSound && audio !== DOM.applauseSound) {
+                            if (audio !== currentSound && audio !== DOM.alarmSound && audio !== DOM.applauseSound) {
                                 audio.pause();
                                 audio.currentTime = 0;
                             }
                         });
                         
                         // Play selected sound
-                        if (soundElement) {
-                            soundElement.currentTime = 0;
-                            soundElement.volume = volumeControl.value;
-                            soundElement.play().catch(e => {
+                        if (currentSound) {
+                            currentSound.currentTime = 0;
+                            currentSound.volume = volumeControl.value;
+                            currentSound.play().catch(e => {
                                 console.error('Failed to play sound:', e);
                             });
+                            soundToggle.textContent = '⏸️';
                         }
                     });
+                });
+                
+                // Sound toggle button
+                soundToggle.addEventListener('click', () => {
+                    if (currentSound) {
+                        if (currentSound.paused) {
+                            currentSound.play().catch(e => {
+                                console.error('Failed to play sound:', e);
+                            });
+                            soundToggle.textContent = '⏸️';
+                        } else {
+                            currentSound.pause();
+                            soundToggle.textContent = '▶️';
+                        }
+                    } else {
+                        // If no sound is selected, play the first one
+                        const firstSoundOption = document.querySelector('.sound-option');
+                        if (firstSoundOption) {
+                            const soundType = firstSoundOption.getAttribute('data-sound');
+                            currentSound = document.getElementById(`${soundType}Sound`);
+                            if (currentSound) {
+                                currentSound.currentTime = 0;
+                                currentSound.volume = volumeControl.value;
+                                currentSound.play().catch(e => {
+                                    console.error('Failed to play sound:', e);
+                                });
+                                soundToggle.textContent = '⏸️';
+                            }
+                        }
+                    }
                 });
                 
                 // Volume control
@@ -1596,6 +1653,15 @@
                     const volume = volumeControl.value;
                     document.querySelectorAll('audio').forEach(audio => {
                         audio.volume = volume;
+                    });
+                });
+                
+                // Update button when sound ends
+                document.querySelectorAll('audio').forEach(audio => {
+                    audio.addEventListener('ended', () => {
+                        if (audio === currentSound) {
+                            soundToggle.textContent = '▶️';
+                        }
                     });
                 });
             }
