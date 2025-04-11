@@ -207,7 +207,6 @@
         #start { background-color: var(--primary-green); color: white; }
         #pause { background-color: var(--primary-orange); color: white; display: none; }
         #stop { background-color: #f44336; color: white; display: none; }
-        #reset { background-color: var(--primary-blue); color: white; }
 
         .quick-buttons {
             display: flex;
@@ -863,7 +862,6 @@
             <button id="start">Start</button>
             <button id="pause">Pause</button>
             <button id="stop">Stop</button>
-            <button id="reset">Reset</button>
         </div>
         
         <div class="quick-buttons">
@@ -914,7 +912,6 @@
             startButton: document.getElementById('start'),
             pauseButton: document.getElementById('pause'),
             stopButton: document.getElementById('stop'),
-            resetButton: document.getElementById('reset'),
             work25Button: document.getElementById('work25'),
             break5Button: document.getElementById('break5'),
             break30Button: document.getElementById('break30'),
@@ -1187,17 +1184,6 @@
                         STATE.sessionStartTime = null;
                     }
                 }
-            },
-
-            reset() {
-                timerActions.stop();
-                const timeParts = DOM.timer.textContent.split(':');
-                let minutes = parseInt(timeParts[0]) || 0;
-                let seconds = parseInt(timeParts[1]) || 0;
-                STATE.totalSeconds = minutes * 60 + seconds;
-                STATE.initialSeconds = STATE.totalSeconds;
-                DOM.timerProgress.style.background = `conic-gradient(var(--primary-blue) 0%, transparent 0%)`;
-                timerActions.updateDisplay();
             },
 
             updateDisplay() {
@@ -1674,7 +1660,6 @@
             DOM.startButton.addEventListener('click', timerActions.start);
             DOM.pauseButton.addEventListener('click', timerActions.pause);
             DOM.stopButton.addEventListener('click', timerActions.stop);
-            DOM.resetButton.addEventListener('click', timerActions.reset);
             DOM.work25Button.addEventListener('click', () => timerActions.setQuickTime(25, 0, true));
             DOM.break5Button.addEventListener('click', () => timerActions.setQuickTime(5, 0, false));
             DOM.break30Button.addEventListener('click', () => timerActions.setQuickTime(30, 0, false));
