@@ -829,8 +829,8 @@
     <audio id="fanSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/fan.wav?raw=true"></audio>
     <audio id="thunderSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/thunderstorm.wav?raw=true"></audio>
     <audio id="riverSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/river.wav?raw=true"></audio>
-    <audio id="birdsSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/birds.wav?raw=true></audio>
-    <audio id="fireplaceSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/fireplace.wav?raw=true "></audio>
+    <audio id="birdsSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/birds.wav?raw=true"></audio>
+    <audio id="fireplaceSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/fireplace.wav?raw=true"></audio>
     <audio id="citySound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/city.wav?raw=true"></audio>
     <audio id="windSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/wind.wav?raw=true"></audio>
     <audio id="cricketsSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/Crickets.wav?raw=true"></audio>
@@ -1672,6 +1672,21 @@
             DOM.projectInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     projectActions.addProject();
+                }
+            });
+
+            // Handle timer display edits
+            DOM.timer.addEventListener('blur', () => {
+                const timeString = DOM.timer.textContent;
+                const [minutes, seconds] = timeString.split(':').map(Number);
+                STATE.totalSeconds = minutes * 60 + seconds;
+                STATE.initialSeconds = STATE.totalSeconds;
+            });
+            
+            DOM.timer.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    DOM.timer.blur();
                 }
             });
 
