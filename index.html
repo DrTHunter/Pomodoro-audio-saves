@@ -598,30 +598,106 @@
         
         /* Music Panel Specific */
         .music-panel {
-            width: 280px;
+            width: 300px;
+            max-height: 500px;
+            overflow-y: auto;
         }
         
-        .lofi-channel {
-            display: block;
+        .music-player {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+        
+        .player-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .player-btn {
+            background: #673ab7;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .player-btn:hover {
+            background: #5e35b1;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin: 10px 0;
+            cursor: pointer;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #673ab7;
+            border-radius: 3px;
+            width: 0%;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .volume-control {
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .track-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .track-item {
             padding: 10px;
-            margin: 8px 0;
+            margin: 5px 0;
             background: #f8f8f8;
             border-radius: 5px;
-            text-decoration: none;
-            color: #333;
+            cursor: pointer;
             transition: background 0.2s;
         }
         
-        .lofi-channel:hover {
+        .track-item:hover {
             background: #e9e9e9;
         }
         
-        .lofi-channel img {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            margin-right: 10px;
-            vertical-align: middle;
+        .track-item.active {
+            background: #673ab7;
+            color: white;
+        }
+        
+        .track-title {
+            font-weight: 500;
+        }
+        
+        .track-duration {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .track-item.active .track-duration {
+            color: #ddd;
         }
         
         /* Rewards Panel Specific */
@@ -671,7 +747,7 @@
             <div class="item" data-panel="info">ℹ️ Pomodoro Info</div>
             <div class="item" data-panel="productivity">📊 Productivity Tracking</div>
             <div class="item" data-panel="sounds">🎵 Background Sounds</div>
-            <div class="item" data-panel="music">🎧 LoFi Channels</div>
+            <div class="item" data-panel="music">🎧 LoFi Music</div>
             <div class="item" data-panel="rewards">🏆 Rewards</div>
             <div class="item" data-panel="donate">☕ Support</div>
         </div>
@@ -762,27 +838,160 @@
     <!-- Music Panel -->
     <div class="panel music-panel" id="musicPanel">
         <button class="close-btn" id="closeMusic">×</button>
-        <h3>Popular LoFi Channels</h3>
+        <h3>LoFi Music Player</h3>
         
-        <a href="https://www.youtube.com/watch?v=jfKfPfyJRdk" target="_blank" class="lofi-channel">
-            <img src="https://i.ytimg.com/vi/jfKfPfyJRdk/hqdefault.jpg" alt="LoFi Girl">
-            LoFi Girl
-        </a>
+        <div class="music-player">
+            <div id="nowPlaying">Select a track to play</div>
+            <div class="player-controls">
+                <button class="player-btn" id="prevBtn">⏮</button>
+                <button class="player-btn" id="playBtn">▶</button>
+                <button class="player-btn" id="nextBtn">⏭</button>
+            </div>
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="time-display">
+                <span id="currentTime">0:00</span>
+                <span id="duration">0:00</span>
+            </div>
+            <input type="range" min="0" max="1" step="0.01" value="0.5" class="volume-control" id="musicVolume">
+            <div style="text-align: center;">Volume</div>
+        </div>
         
-        <a href="https://www.youtube.com/watch?v=rUxyKA_-grg" target="_blank" class="lofi-channel">
-            <img src="https://i.ytimg.com/vi/rUxyKA_-grg/hqdefault.jpg" alt="Chillhop">
-            Chillhop Music
-        </a>
-        
-        <a href="https://www.youtube.com/watch?v=7NOSDKb0HlU" target="_blank" class="lofi-channel">
-            <img src="https://i.ytimg.com/vi/7NOSDKb0HlU/hqdefault.jpg" alt="Chill Cow">
-            Chill Cow
-        </a>
-        
-        <a href="https://www.youtube.com/watch?v=4xDzrJKXOOY" target="_blank" class="lofi-channel">
-            <img src="https://i.ytimg.com/vi/4xDzrJKXOOY/hqdefault.jpg" alt="Ambient Worlds">
-            Ambient Worlds
-        </a>
+        <div class="track-list">
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/1999_bedroom_beats.wav?raw=true">
+                <div class="track-title">1999 Bedroom Beats</div>
+                <div class="track-duration">2:45</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/cafe_con_leche_beats.wav?raw=true">
+                <div class="track-title">Cafe con Leche Beats</div>
+                <div class="track-duration">3:12</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/cafe_window_rain.wav?raw=true">
+                <div class="track-title">Cafe Window Rain</div>
+                <div class="track-duration">2:58</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/cat_cafe_boogie.wav?raw=true">
+                <div class="track-title">Cat Cafe Boogie</div>
+                <div class="track-duration">3:20</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/diner_booth_dreams.WAV?raw=true">
+                <div class="track-title">Diner Booth Dreams</div>
+                <div class="track-duration">3:45</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/fading_streetlights.wav?raw=true">
+                <div class="track-title">Fading Streetlights</div>
+                <div class="track-duration">4:10</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/falling_through_hourglasses.wav?raw=true">
+                <div class="track-title">Falling Through Hourglasses</div>
+                <div class="track-duration">3:55</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/fingers_on_dusty_keys.wav?raw=true">
+                <div class="track-title">Fingers on Dusty Keys</div>
+                <div class="track-duration">4:15</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/five_am_jazz_club.wav?raw=true">
+                <div class="track-title">Five A.M. Jazz Club</div>
+                <div class="track-duration">5:30</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/fretboard_dreams.wav?raw=true">
+                <div class="track-title">Fretboard Dreams</div>
+                <div class="track-duration">3:40</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/half_speed_heartbeats.wav?raw=true">
+                <div class="track-title">Half-Speed Heartbeats</div>
+                <div class="track-duration">4:25</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/honey_drip_melodies.wav?raw=true">
+                <div class="track-title">Honey Drip Melodies</div>
+                <div class="track-duration">3:50</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/ice_melting_in_slow_motion.wav?raw=true">
+                <div class="track-title">Ice Melting in Slow Motion</div>
+                <div class="track-duration">5:15</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/koi_pond_calculus.wav?raw=true">
+                <div class="track-title">Koi Pond Calculus</div>
+                <div class="track-duration">4:40</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/like_water_in_dreams.wav?raw=true">
+                <div class="track-title">Like Water in Dreams</div>
+                <div class="track-duration">3:35</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/low_key_hustle.wav?raw=true">
+                <div class="track-title">Low-Key Hustle</div>
+                <div class="track-duration">4:05</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/margin_notes_at_2_am.wav?raw=true">
+                <div class="track-title">Margin Notes at 2 AM</div>
+                <div class="track-duration">5:20</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/neon_bicycle.wav?raw=true">
+                <div class="track-title">Neon Bicycle</div>
+                <div class="track-duration">3:30</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/nylon_string_sunset.wav?raw=true">
+                <div class="track-title">Nylon String Sunset</div>
+                <div class="track-duration">4:50</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/pencil_marks_on_sheet_music.wav?raw=true">
+                <div class="track-title">Pencil Marks on Sheet Music</div>
+                <div class="track-duration">3:25</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/pixelated_picnic.wav?raw=true">
+                <div class="track-title">Pixelated Picnic</div>
+                <div class="track-duration">4:15</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/popsicle_summer.wav?raw=true">
+                <div class="track-title">Popsicle Summer</div>
+                <div class="track-duration">3:10</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/smoke_rings_in_b_flat.wav?raw=true">
+                <div class="track-title">Smoke Rings in B-Flat</div>
+                <div class="track-duration">5:45</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/sneaker_scuff_symphony.wav?raw=true">
+                <div class="track-title">Sneaker Scuff Symphony</div>
+                <div class="track-duration">4:30</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/subway_graffiti_heartbeat.wav?raw=true">
+                <div class="track-title">Subway Graffiti Heartbeat</div>
+                <div class="track-duration">3:55</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/sunburn_serenade.wav?raw=true">
+                <div class="track-title">Sunburn Serenade</div>
+                <div class="track-duration">4:20</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/taxi_window_views.wav?raw=true">
+                <div class="track-title">Taxi Window Views</div>
+                <div class="track-duration">5:10</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/the_art_of_slowing_down.wav?raw=true">
+                <div class="track-title">The Art of Slowing Down</div>
+                <div class="track-duration">6:25</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/the_lake_at_4_am.wav?raw=true">
+                <div class="track-title">The Lake at 4 AM</div>
+                <div class="track-duration">7:15</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/the_last_candle_burns.wav?raw=true">
+                <div class="track-title">The Last Candle Burns</div>
+                <div class="track-duration">5:50</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/tickets_to_nowhere.wav?raw=true">
+                <div class="track-title">Tickets to Nowhere</div>
+                <div class="track-duration">4:40</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/vinyl_hustle.wav?raw=true">
+                <div class="track-title">Vinyl Hustle</div>
+                <div class="track-duration">3:55</div>
+            </div>
+            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/warm_blanket_thoughts.wav?raw=true">
+                <div class="track-title">Warm Blanket Thoughts</div>
+                <div class="track-duration">6:10</div>
+            </div>
+        </div>
     </div>
 
     <!-- Rewards Panel -->
@@ -837,6 +1046,7 @@
     <audio id="waterfallSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/waterfall.wav?raw=true"></audio>
     <audio id="librarySound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/library.wav?raw=true"></audio>
     <audio id="rainroofSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/rain-roof.wav?raw=true"></audio>
+    <audio id="lofiPlayer"></audio>
 
     <div class="animal-side animal-left">
         <img class="animal-gif" id="leftAnimalGif" src="assets/working-dog-animation.gif" alt="Working animal">
@@ -928,7 +1138,19 @@
             rightAnimalGif: document.getElementById('rightAnimalGif'),
             body: document.body,
             alarmSound: document.getElementById('alarmSound'),
-            applauseSound: document.getElementById('applauseSound')
+            applauseSound: document.getElementById('applauseSound'),
+            // Music player elements
+            nowPlaying: document.getElementById('nowPlaying'),
+            playBtn: document.getElementById('playBtn'),
+            prevBtn: document.getElementById('prevBtn'),
+            nextBtn: document.getElementById('nextBtn'),
+            progressBar: document.getElementById('progressBar'),
+            progressContainer: document.getElementById('progressContainer'),
+            currentTime: document.getElementById('currentTime'),
+            duration: document.getElementById('duration'),
+            musicVolume: document.getElementById('musicVolume'),
+            lofiPlayer: document.getElementById('lofiPlayer'),
+            trackItems: document.querySelectorAll('.track-item')
         };
 
         // ========== State Management ==========
@@ -946,7 +1168,15 @@
             completedSessions: 0,
             breakGif: 'assets/break-animation.gif',
             projects: [],
-            currentProject: null
+            currentProject: null,
+            // Music player state
+            isPlaying: false,
+            currentTrackIndex: -1,
+            tracks: Array.from(DOM.trackItems).map(item => ({
+                title: item.querySelector('.track-title').textContent,
+                duration: item.querySelector('.track-duration').textContent,
+                src: item.getAttribute('data-src')
+            }))
         };
 
         // ========== Timer Functions ==========
@@ -1255,6 +1485,127 @@
                     DOM.modeIndicator.textContent = "Break Time";
                     DOM.modeIndicator.className = "mode-indicator break-mode";
                 }
+            }
+        };
+
+        // ========== Music Player Functions ==========
+        const musicPlayer = {
+            init() {
+                // Set up event listeners
+                DOM.playBtn.addEventListener('click', () => this.togglePlay());
+                DOM.prevBtn.addEventListener('click', () => this.prevTrack());
+                DOM.nextBtn.addEventListener('click', () => this.nextTrack());
+                DOM.progressContainer.addEventListener('click', (e) => this.setProgress(e));
+                DOM.musicVolume.addEventListener('input', () => this.setVolume());
+                
+                // Set up track click handlers
+                DOM.trackItems.forEach((item, index) => {
+                    item.addEventListener('click', () => {
+                        this.playTrack(index);
+                    });
+                });
+                
+                // Set up audio event listeners
+                DOM.lofiPlayer.addEventListener('timeupdate', () => this.updateProgress());
+                DOM.lofiPlayer.addEventListener('ended', () => this.nextTrack());
+                DOM.lofiPlayer.addEventListener('loadedmetadata', () => {
+                    this.updateDuration();
+                });
+                
+                // Set initial volume
+                DOM.lofiPlayer.volume = 0.5;
+            },
+            
+            playTrack(index) {
+                if (index >= 0 && index < STATE.tracks.length) {
+                    STATE.currentTrackIndex = index;
+                    const track = STATE.tracks[index];
+                    DOM.lofiPlayer.src = track.src;
+                    DOM.nowPlaying.textContent = `Now Playing: ${track.title}`;
+                    
+                    // Update active track in UI
+                    DOM.trackItems.forEach((item, i) => {
+                        if (i === index) {
+                            item.classList.add('active');
+                        } else {
+                            item.classList.remove('active');
+                        }
+                    });
+                    
+                    this.play();
+                }
+            },
+            
+            togglePlay() {
+                if (STATE.currentTrackIndex === -1 && STATE.tracks.length > 0) {
+                    this.playTrack(0);
+                } else if (STATE.isPlaying) {
+                    this.pause();
+                } else {
+                    this.play();
+                }
+            },
+            
+            play() {
+                DOM.lofiPlayer.play()
+                    .then(() => {
+                        STATE.isPlaying = true;
+                        DOM.playBtn.textContent = '⏸';
+                    })
+                    .catch(e => {
+                        console.error('Error playing track:', e);
+                    });
+            },
+            
+            pause() {
+                DOM.lofiPlayer.pause();
+                STATE.isPlaying = false;
+                DOM.playBtn.textContent = '▶';
+            },
+            
+            prevTrack() {
+                if (STATE.currentTrackIndex > 0) {
+                    this.playTrack(STATE.currentTrackIndex - 1);
+                } else {
+                    this.playTrack(STATE.tracks.length - 1);
+                }
+            },
+            
+            nextTrack() {
+                if (STATE.currentTrackIndex < STATE.tracks.length - 1) {
+                    this.playTrack(STATE.currentTrackIndex + 1);
+                } else {
+                    this.playTrack(0);
+                }
+            },
+            
+            updateProgress() {
+                const { duration, currentTime } = DOM.lofiPlayer;
+                const progressPercent = (currentTime / duration) * 100;
+                DOM.progressBar.style.width = `${progressPercent}%`;
+                
+                // Update current time display
+                const currentMinutes = Math.floor(currentTime / 60);
+                const currentSeconds = Math.floor(currentTime % 60);
+                DOM.currentTime.textContent = `${currentMinutes}:${currentSeconds.toString().padStart(2, '0')}`;
+            },
+            
+            updateDuration() {
+                const duration = DOM.lofiPlayer.duration;
+                const durationMinutes = Math.floor(duration / 60);
+                const durationSeconds = Math.floor(duration % 60);
+                DOM.duration.textContent = `${durationMinutes}:${durationSeconds.toString().padStart(2, '0')}`;
+            },
+            
+            setProgress(e) {
+                const width = DOM.progressContainer.clientWidth;
+                const clickX = e.offsetX;
+                const duration = DOM.lofiPlayer.duration;
+                DOM.lofiPlayer.currentTime = (clickX / width) * duration;
+            },
+            
+            setVolume() {
+                DOM.lofiPlayer.volume = DOM.musicVolume.value;
             }
         };
 
@@ -1588,7 +1939,7 @@
                         
                         // Stop all other sounds
                         document.querySelectorAll('audio').forEach(audio => {
-                            if (audio !== currentSound && audio !== DOM.alarmSound && audio !== DOM.applauseSound) {
+                            if (audio !== currentSound && audio !== DOM.alarmSound && audio !== DOM.applauseSound && audio !== DOM.lofiPlayer) {
                                 audio.pause();
                                 audio.currentTime = 0;
                             }
@@ -1640,7 +1991,9 @@
                 volumeControl.addEventListener('input', () => {
                     const volume = volumeControl.value;
                     document.querySelectorAll('audio').forEach(audio => {
-                        audio.volume = volume;
+                        if (audio !== DOM.lofiPlayer) {
+                            audio.volume = volume;
+                        }
                     });
                 });
                 
@@ -1692,6 +2045,9 @@
 
             // Initialize dropdown menu
             dropdownActions.init();
+            
+            // Initialize music player
+            musicPlayer.init();
         }
 
         function init() {
