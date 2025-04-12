@@ -718,8 +718,253 @@
         
         /* Rewards Panel Specific */
         .rewards-panel {
-            width: 280px;
+            width: 350px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .rewards-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .rewards-tab-btn {
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .rewards-tab-btn:hover {
+            color: #673ab7;
+        }
+        
+        .rewards-tab-btn.active {
+            color: #673ab7;
+            border-bottom-color: #673ab7;
+            font-weight: bold;
+        }
+        
+        .rewards-tab-content {
+            display: none;
+            padding: 10px 0;
+        }
+        
+        .rewards-tab-content.active {
+            display: block;
+        }
+        
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .reward-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
             text-align: center;
+        }
+        
+        .reward-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .reward-card.completed {
+            background: #f8f8f8;
+            border: 1px solid #4caf50;
+        }
+        
+        .reward-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .reward-card h5 {
+            margin: 0 0 5px 0;
+            color: #673ab7;
+        }
+        
+        .reward-card p {
+            margin: 0 0 10px 0;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .reward-progress {
+            margin-top: 10px;
+        }
+        
+        .reward-progress .progress-bar {
+            height: 5px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+        
+        .reward-progress .progress-bar div {
+            height: 100%;
+            background: #673ab7;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .reward-progress span {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* History Tab Styles */
+        .history-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 5px 10px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover {
+            background: #e0e0e0;
+        }
+        
+        .filter-btn.active {
+            background: #673ab7;
+            color: white;
+        }
+        
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .history-icon {
+            font-size: 1.5em;
+            flex-shrink: 0;
+        }
+        
+        .history-details {
+            flex-grow: 1;
+        }
+        
+        .history-details h5 {
+            margin: 0;
+            font-size: 14px;
+        }
+        
+        .history-details p {
+            margin: 5px 0 0 0;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .history-date {
+            font-size: 12px;
+            color: #999;
+            flex-shrink: 0;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: #999;
+            padding: 20px;
+        }
+        
+        /* Reward Achievement Modal */
+        .reward-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .reward-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .reward-modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .reward-modal.show .reward-modal-content {
+            transform: scale(1);
+        }
+        
+        .reward-modal-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            color: #673ab7;
+        }
+        
+        .reward-modal-title {
+            font-size: 1.5em;
+            color: #673ab7;
+            margin-bottom: 10px;
+        }
+        
+        .reward-modal-description {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        
+        .reward-modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
         }
         
         /* Donate Panel Specific */
@@ -1073,7 +1318,267 @@
     <div class="panel rewards-panel" id="rewardsPanel">
         <button class="close-btn" id="closeRewards">×</button>
         <h3>Rewards</h3>
-        <p>Coming soon!</p>
+        
+        <div class="rewards-tabs">
+            <button class="rewards-tab-btn active" data-tab="daily">Daily</button>
+            <button class="rewards-tab-btn" data-tab="weekly">Weekly</button>
+            <button class="rewards-tab-btn" data-tab="monthly">Monthly</button>
+            <button class="rewards-tab-btn" data-tab="history">History</button>
+        </div>
+        
+        <div class="rewards-content">
+            <!-- Daily Rewards Tab -->
+            <div class="rewards-tab-content active" id="daily-tab">
+                <h4>Daily Rewards</h4>
+                <p>Reset every day at midnight</p>
+                
+                <div class="rewards-grid">
+                    <div class="reward-card" data-id="daily-1">
+                        <div class="reward-icon">☕</div>
+                        <h5>Morning Brew</h5>
+                        <p>Complete 1 Pomodoro</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/1</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="daily-2">
+                        <div class="reward-icon">📚</div>
+                        <h5>Focused Learner</h5>
+                        <p>Complete 3 Pomodoros</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="daily-3">
+                        <div class="reward-icon">🏆</div>
+                        <h5>Productivity Pro</h5>
+                        <p>Complete 5 Pomodoros</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="daily-4">
+                        <div class="reward-icon">⏰</div>
+                        <h5>Time Master</h5>
+                        <p>Work for 2 hours</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/120</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="daily-5">
+                        <div class="reward-icon">🧘</div>
+                        <h5>Balanced Day</h5>
+                        <p>Take all scheduled breaks</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Weekly Rewards Tab -->
+            <div class="rewards-tab-content" id="weekly-tab">
+                <h4>Weekly Rewards</h4>
+                <p>Reset every Monday at midnight</p>
+                
+                <div class="rewards-grid">
+                    <div class="reward-card" data-id="weekly-1">
+                        <div class="reward-icon">📅</div>
+                        <h5>Consistent Starter</h5>
+                        <p>Work 3 days this week</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="weekly-2">
+                        <div class="reward-icon">💪</div>
+                        <h5>Dedicated Worker</h5>
+                        <p>Complete 15 Pomodoros</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/15</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="weekly-3">
+                        <div class="reward-icon">⏳</div>
+                        <h5>Time Investor</h5>
+                        <p>Work for 10 hours</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/600</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="weekly-4">
+                        <div class="reward-icon">📝</div>
+                        <h5>Project Champion</h5>
+                        <p>Work on 3 different projects</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/3</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="weekly-5">
+                        <div class="reward-icon">🌟</div>
+                        <h5>Perfect Week</h5>
+                        <p>Complete all daily rewards</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="weekly-6">
+                        <div class="reward-icon">🏝️</div>
+                        <h5>Weekend Warrior</h5>
+                        <p>Work on a weekend day</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Monthly Rewards Tab -->
+            <div class="rewards-tab-content" id="monthly-tab">
+                <h4>Monthly Rewards</h4>
+                <p>Reset on the 1st of each month</p>
+                
+                <div class="rewards-grid">
+                    <div class="reward-card" data-id="monthly-1">
+                        <div class="reward-icon">📆</div>
+                        <h5>Month Starter</h5>
+                        <p>Work 10 days this month</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-2">
+                        <div class="reward-icon">🔥</div>
+                        <h5>Hot Streak</h5>
+                        <p>Work 5 days in a row</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-3">
+                        <div class="reward-icon">⏱️</div>
+                        <h5>Time Titan</h5>
+                        <p>Work for 50 hours</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/3000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-4">
+                        <div class="reward-icon">🍅</div>
+                        <h5>Pomodoro Master</h5>
+                        <p>Complete 100 Pomodoros</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/100</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-5">
+                        <div class="reward-icon">📚</div>
+                        <h5>Project Explorer</h5>
+                        <p>Work on 10 different projects</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-6">
+                        <div class="reward-icon">🏅</div>
+                        <h5>Weekly Warrior</h5>
+                        <p>Complete all weekly rewards</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/6</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-7">
+                        <div class="reward-icon">🌙</div>
+                        <h5>Night Owl</h5>
+                        <p>Work after 10 PM 5 times</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-8">
+                        <div class="reward-icon">🌅</div>
+                        <h5>Early Bird</h5>
+                        <p>Work before 8 AM 5 times</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/5</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-9">
+                        <div class="reward-icon">📊</div>
+                        <h5>Consistency King</h5>
+                        <p>Work every weekday for 2 weeks</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/10</span>
+                        </div>
+                    </div>
+                    
+                    <div class="reward-card" data-id="monthly-10">
+                        <div class="reward-icon">🏆</div>
+                        <h5>Ultimate Achiever</h5>
+                        <p>Complete all monthly rewards</p>
+                        <div class="reward-progress">
+                            <div class="progress-bar"><div style="width: 0%"></div></div>
+                            <span>0/9</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- History Tab -->
+            <div class="rewards-tab-content" id="history-tab">
+                <h4>Reward History</h4>
+                <p>Your completed rewards</p>
+                
+                <div class="history-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="daily">Daily</button>
+                    <button class="filter-btn" data-filter="weekly">Weekly</button>
+                    <button class="filter-btn" data-filter="monthly">Monthly</button>
+                </div>
+                
+                <div class="history-list" id="historyList">
+                    <!-- History items will be added here dynamically -->
+                    <p class="empty-message">No rewards earned yet. Keep working!</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Donate Panel -->
@@ -1113,6 +1618,16 @@
         </div>
     </div>
 
+    <!-- Reward Achievement Modal -->
+    <div class="reward-modal" id="rewardModal">
+        <div class="reward-modal-content">
+            <button class="reward-modal-close" id="closeRewardModal">×</button>
+            <div class="reward-modal-icon" id="rewardModalIcon">🏆</div>
+            <h3 class="reward-modal-title" id="rewardModalTitle">Reward Unlocked!</h3>
+            <p class="reward-modal-description" id="rewardModalDescription">You've earned a reward for your hard work!</p>
+        </div>
+    </div>
+
     <!-- Audio Elements (hidden) -->
     <audio id="meditationBowlsSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/meditation-bowls.wav?raw=true"></audio>
     <audio id="rainSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/rain.wav?raw=true"></audio>
@@ -1134,6 +1649,8 @@
     <audio id="librarySound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/library.wav?raw=true"></audio>
     <audio id="rainroofSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/rain-roof.wav?raw=true"></audio>
     <audio id="lofiPlayer"></audio>
+    <audio id="alarmSound" src="assets/sounds/alarm.wav" preload="auto"></audio>
+    <audio id="applauseSound" src="assets/sounds/applause.mp3" preload="auto"></audio>
 
     <div class="animal-side animal-left">
         <img class="animal-gif" id="leftAnimalGif" src="assets/working-dog-animation.gif" alt="Working animal">
@@ -1198,9 +1715,6 @@
         <img class="animal-gif" id="rightAnimalGif" src="assets/working-dog-animation.gif" alt="Working animal">
     </div>
 
-    <audio id="alarmSound" src="assets/sounds/alarm.wav" preload="auto"></audio>
-    <audio id="applauseSound" src="assets/sounds/applause.mp3" preload="auto"></audio>
-
     <script>
         // ========== DOM Elements ==========
         const DOM = {
@@ -1241,7 +1755,13 @@
             duration: document.getElementById('duration'),
             musicVolume: document.getElementById('musicVolume'),
             lofiPlayer: document.getElementById('lofiPlayer'),
-            trackItems: document.querySelectorAll('.track-item')
+            trackItems: document.querySelectorAll('.track-item'),
+            // Reward modal elements
+            rewardModal: document.getElementById('rewardModal'),
+            rewardModalIcon: document.getElementById('rewardModalIcon'),
+            rewardModalTitle: document.getElementById('rewardModalTitle'),
+            rewardModalDescription: document.getElementById('rewardModalDescription'),
+            closeRewardModal: document.getElementById('closeRewardModal')
         };
 
         // ========== State Management ==========
@@ -1267,7 +1787,9 @@
                 title: item.querySelector('.track-title').textContent,
                 duration: item.querySelector('.track-duration').textContent,
                 src: item.getAttribute('data-src')
-            }))
+            })),
+            // Rewards system
+            rewardsSystem: null
         };
 
         // ========== Timer Functions ==========
@@ -2134,6 +2656,516 @@
             }
         };
 
+        // ========== Rewards System ==========
+        const rewardsSystem = {
+            rewards: {
+                daily: {
+                    'daily-1': { name: 'Morning Brew', description: 'Complete 1 Pomodoro', target: 1, current: 0, completed: false, icon: '☕' },
+                    'daily-2': { name: 'Focused Learner', description: 'Complete 3 Pomodoros', target: 3, current: 0, completed: false, icon: '📚' },
+                    'daily-3': { name: 'Productivity Pro', description: 'Complete 5 Pomodoros', target: 5, current: 0, completed: false, icon: '🏆' },
+                    'daily-4': { name: 'Time Master', description: 'Work for 2 hours', target: 120, current: 0, completed: false, icon: '⏰' },
+                    'daily-5': { name: 'Balanced Day', description: 'Take all scheduled breaks', target: 1, current: 0, completed: false, icon: '🧘' }
+                },
+                weekly: {
+                    'weekly-1': { name: 'Consistent Starter', description: 'Work 3 days this week', target: 3, current: 0, completed: false, icon: '📅' },
+                    'weekly-2': { name: 'Dedicated Worker', description: 'Complete 15 Pomodoros', target: 15, current: 0, completed: false, icon: '💪' },
+                    'weekly-3': { name: 'Time Investor', description: 'Work for 10 hours', target: 600, current: 0, completed: false, icon: '⏳' },
+                    'weekly-4': { name: 'Project Champion', description: 'Work on 3 different projects', target: 3, current: 0, completed: false, icon: '📝' },
+                    'weekly-5': { name: 'Perfect Week', description: 'Complete all daily rewards', target: 5, current: 0, completed: false, icon: '🌟' },
+                    'weekly-6': { name: 'Weekend Warrior', description: 'Work on a weekend day', target: 1, current: 0, completed: false, icon: '🏝️' }
+                },
+                monthly: {
+                    'monthly-1': { name: 'Month Starter', description: 'Work 10 days this month', target: 10, current: 0, completed: false, icon: '📆' },
+                    'monthly-2': { name: 'Hot Streak', description: 'Work 5 days in a row', target: 5, current: 0, completed: false, icon: '🔥' },
+                    'monthly-3': { name: 'Time Titan', description: 'Work for 50 hours', target: 3000, current: 0, completed: false, icon: '⏱️' },
+                    'monthly-4': { name: 'Pomodoro Master', description: 'Complete 100 Pomodoros', target: 100, current: 0, completed: false, icon: '🍅' },
+                    'monthly-5': { name: 'Project Explorer', description: 'Work on 10 different projects', target: 10, current: 0, completed: false, icon: '📚' },
+                    'monthly-6': { name: 'Weekly Warrior', description: 'Complete all weekly rewards', target: 6, current: 0, completed: false, icon: '🏅' },
+                    'monthly-7': { name: 'Night Owl', description: 'Work after 10 PM 5 times', target: 5, current: 0, completed: false, icon: '🌙' },
+                    'monthly-8': { name: 'Early Bird', description: 'Work before 8 AM 5 times', target: 5, current: 0, completed: false, icon: '🌅' },
+                    'monthly-9': { name: 'Consistency King', description: 'Work every weekday for 2 weeks', target: 10, current: 0, completed: false, icon: '📊' },
+                    'monthly-10': { name: 'Ultimate Achiever', description: 'Complete all monthly rewards', target: 9, current: 0, completed: false, icon: '🏆' }
+                }
+            },
+            history: [],
+            lastReset: {
+                daily: null,
+                weekly: null,
+                monthly: null
+            },
+            currentStreak: 0,
+            lastWorkDate: null,
+            activeProjects: new Set(),
+            nightWorkCount: 0,
+            morningWorkCount: 0,
+            workDays: new Set(),
+
+            init() {
+                this.loadRewardsData();
+                this.setupEventListeners();
+                this.checkReset();
+                this.renderRewards();
+                this.renderHistory();
+                
+                // Close reward modal button
+                DOM.closeRewardModal.addEventListener('click', () => {
+                    DOM.rewardModal.classList.remove('show');
+                });
+            },
+
+            setupEventListeners() {
+                // Tab switching
+                document.querySelectorAll('.rewards-tab-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.rewards-tab-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.rewards-tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        btn.classList.add('active');
+                        document.getElementById(`${btn.dataset.tab}-tab`).classList.add('active');
+                    });
+                });
+
+                // History filtering
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.renderHistory(btn.dataset.filter);
+                    });
+                });
+            },
+
+            loadRewardsData() {
+                const savedData = localStorage.getItem('rewardsData');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    this.rewards = data.rewards || this.rewards;
+                    this.history = data.history || [];
+                    this.lastReset = data.lastReset || this.lastReset;
+                    this.currentStreak = data.currentStreak || 0;
+                    this.lastWorkDate = data.lastWorkDate ? new Date(data.lastWorkDate) : null;
+                    this.activeProjects = new Set(data.activeProjects || []);
+                    this.nightWorkCount = data.nightWorkCount || 0;
+                    this.morningWorkCount = data.morningWorkCount || 0;
+                    this.workDays = new Set(data.workDays || []);
+                }
+            },
+
+            saveRewardsData() {
+                const data = {
+                    rewards: this.rewards,
+                    history: this.history,
+                    lastReset: this.lastReset,
+                    currentStreak: this.currentStreak,
+                    lastWorkDate: this.lastWorkDate,
+                    activeProjects: Array.from(this.activeProjects),
+                    nightWorkCount: this.nightWorkCount,
+                    morningWorkCount: this.morningWorkCount,
+                    workDays: Array.from(this.workDays)
+                };
+                localStorage.setItem('rewardsData', JSON.stringify(data));
+            },
+
+            checkReset() {
+                const now = new Date();
+                
+                // Daily reset check
+                if (!this.lastReset.daily || now.toDateString() !== new Date(this.lastReset.daily).toDateString()) {
+                    if (now.getHours() >= 0) { // Reset after midnight
+                        this.resetRewards('daily');
+                        this.lastReset.daily = now.toISOString();
+                        this.saveRewardsData();
+                    }
+                }
+                
+                // Weekly reset check (every Monday)
+                const lastWeeklyReset = this.lastReset.weekly ? new Date(this.lastReset.weekly) : null;
+                if (!lastWeeklyReset || (now.getDay() === 1 && now.toDateString() !== lastWeeklyReset.toDateString())) {
+                    this.resetRewards('weekly');
+                    this.lastReset.weekly = now.toISOString();
+                    this.saveRewardsData();
+                }
+                
+                // Monthly reset check (first day of month)
+                const lastMonthlyReset = this.lastReset.monthly ? new Date(this.lastReset.monthly) : null;
+                if (!lastMonthlyReset || (now.getDate() === 1 && now.toDateString() !== lastMonthlyReset.toDateString())) {
+                    this.resetRewards('monthly');
+                    this.lastReset.monthly = now.toISOString();
+                    this.saveRewardsData();
+                }
+            },
+
+            resetRewards(type) {
+                for (const rewardId in this.rewards[type]) {
+                    this.rewards[type][rewardId].current = 0;
+                    this.rewards[type][rewardId].completed = false;
+                }
+                
+                if (type === 'daily') {
+                    // Reset daily-specific counters
+                    this.rewards.weekly['weekly-5'].current = 0; // Reset Perfect Week progress
+                }
+                
+                if (type === 'weekly') {
+                    // Reset weekly-specific counters
+                    this.activeProjects.clear();
+                    this.workDays.clear();
+                    this.rewards.monthly['monthly-6'].current = 0; // Reset Weekly Warrior progress
+                }
+                
+                if (type === 'monthly') {
+                    // Reset monthly-specific counters
+                    this.nightWorkCount = 0;
+                    this.morningWorkCount = 0;
+                    this.workDays.clear();
+                }
+                
+                this.saveRewardsData();
+                this.renderRewards();
+            },
+
+            updateProgress(type, rewardId, amount = 1) {
+                if (!this.rewards[type] || !this.rewards[type][rewardId]) return;
+                
+                const reward = this.rewards[type][rewardId];
+                if (reward.completed) return;
+                
+                reward.current += amount;
+                
+                if (reward.current >= reward.target) {
+                    reward.completed = true;
+                    this.addToHistory(type, rewardId);
+                    
+                    // Check if all daily rewards are completed for Perfect Week
+                    if (type === 'daily') {
+                        this.updatePerfectWeekProgress();
+                    }
+                    
+                    // Check if all weekly rewards are completed for Weekly Warrior
+                    if (type === 'weekly') {
+                        this.updateWeeklyWarriorProgress();
+                    }
+                    
+                    // Check if all monthly rewards are completed for Ultimate Achiever
+                    if (type === 'monthly') {
+                        this.updateUltimateAchieverProgress();
+                    }
+                    
+                    // Show celebration
+                    this.showRewardAchievement(reward);
+                }
+                
+                this.saveRewardsData();
+                this.renderRewards();
+            },
+
+            showRewardAchievement(reward) {
+                DOM.rewardModalIcon.textContent = reward.icon;
+                DOM.rewardModalTitle.textContent = reward.name;
+                DOM.rewardModalDescription.textContent = reward.description;
+                
+                // Play applause sound
+                DOM.applauseSound.currentTime = 0;
+                DOM.applauseSound.play();
+                
+                // Show confetti
+                celebrationActions.createConfetti();
+                
+                // Show modal
+                DOM.rewardModal.classList.add('show');
+                
+                // Auto-hide after 5 seconds
+                setTimeout(() => {
+                    DOM.rewardModal.classList.remove('show');
+                }, 5000);
+            },
+
+            updatePerfectWeekProgress() {
+                const allCompleted = Object.values(this.rewards.daily).every(r => r.completed);
+                if (allCompleted) {
+                    this.rewards.weekly['weekly-5'].current = this.rewards.weekly['weekly-5'].target;
+                    this.rewards.weekly['weekly-5'].completed = true;
+                    this.addToHistory('weekly', 'weekly-5');
+                    this.showRewardAchievement(this.rewards.weekly['weekly-5']);
+                }
+            },
+
+            updateWeeklyWarriorProgress() {
+                const allCompleted = Object.values(this.rewards.weekly).every(r => r.completed);
+                if (allCompleted) {
+                    this.rewards.monthly['monthly-6'].current += 1;
+                    
+                    if (this.rewards.monthly['monthly-6'].current >= this.rewards.monthly['monthly-6'].target) {
+                        this.rewards.monthly['monthly-6'].completed = true;
+                        this.addToHistory('monthly', 'monthly-6');
+                        this.showRewardAchievement(this.rewards.monthly['monthly-6']);
+                    }
+                }
+            },
+
+            updateUltimateAchieverProgress() {
+                const allCompleted = Object.values(this.rewards.monthly).every(r => r.completed);
+                if (allCompleted) {
+                    this.rewards.monthly['monthly-10'].current = this.rewards.monthly['monthly-10'].target;
+                    this.rewards.monthly['monthly-10'].completed = true;
+                    this.addToHistory('monthly', 'monthly-10');
+                    this.showRewardAchievement(this.rewards.monthly['monthly-10']);
+                }
+            },
+
+            addToHistory(type, rewardId) {
+                const reward = this.rewards[type][rewardId];
+                if (!reward) return;
+                
+                this.history.unshift({
+                    type,
+                    id: rewardId,
+                    name: reward.name,
+                    icon: reward.icon,
+                    date: new Date().toISOString()
+                });
+                
+                // Keep only the last 100 history items
+                if (this.history.length > 100) {
+                    this.history.pop();
+                }
+                
+                this.saveRewardsData();
+                this.renderHistory();
+            },
+
+            trackPomodoroCompletion() {
+                // Update daily pomodoro rewards
+                this.updateProgress('daily', 'daily-1');
+                this.updateProgress('daily', 'daily-2');
+                this.updateProgress('daily', 'daily-3');
+                
+                // Update weekly pomodoro reward
+                this.updateProgress('weekly', 'weekly-2');
+                
+                // Update monthly pomodoro reward
+                this.updateProgress('monthly', 'monthly-4');
+            },
+
+            trackWorkTime(minutes) {
+                // Update daily time reward (convert minutes to hours for the target)
+                this.updateProgress('daily', 'daily-4', minutes);
+                
+                // Update weekly time reward
+                this.updateProgress('weekly', 'weekly-3', minutes);
+                
+                // Update monthly time reward
+                this.updateProgress('monthly', 'monthly-3', minutes);
+            },
+
+            trackBreakTaken() {
+                // Update daily break reward
+                this.updateProgress('daily', 'daily-5');
+            },
+
+            trackWorkDay() {
+                const today = new Date().toDateString();
+                const now = new Date();
+                
+                // Track work day for streak
+                if (!this.lastWorkDate || new Date(this.lastWorkDate).toDateString() !== today) {
+                    // Check if this is consecutive day
+                    const yesterday = new Date();
+                    yesterday.setDate(yesterday.getDate() - 1);
+                    
+                    if (this.lastWorkDate && new Date(this.lastWorkDate).toDateString() === yesterday.toDateString()) {
+                        this.currentStreak++;
+                    } else {
+                        this.currentStreak = 1;
+                    }
+                    
+                    this.lastWorkDate = now.toISOString();
+                    
+                    // Update daily work days
+                    this.workDays.add(today);
+                    
+                    // Update weekly work days reward
+                    this.updateProgress('weekly', 'weekly-1');
+                    
+                    // Update monthly work days reward
+                    this.updateProgress('monthly', 'monthly-1');
+                    
+                    // Update hot streak reward if applicable
+                    if (this.currentStreak >= 5) {
+                        this.updateProgress('monthly', 'monthly-2');
+                    }
+                    
+                    // Update consistency king reward
+                    if (this.workDays.size >= 10) {
+                        this.updateProgress('monthly', 'monthly-9');
+                    }
+                    
+                    // Check for weekend work (Saturday or Sunday)
+                    if (now.getDay() === 0 || now.getDay() === 6) {
+                        this.updateProgress('weekly', 'weekly-6');
+                    }
+                    
+                    // Check for night work (after 10 PM)
+                    if (now.getHours() >= 22) {
+                        this.nightWorkCount++;
+                        if (this.nightWorkCount >= 5) {
+                            this.updateProgress('monthly', 'monthly-7');
+                        }
+                    }
+                    
+                    // Check for morning work (before 8 AM)
+                    if (now.getHours() < 8) {
+                        this.morningWorkCount++;
+                        if (this.morningWorkCount >= 5) {
+                            this.updateProgress('monthly', 'monthly-8');
+                        }
+                    }
+                    
+                    this.saveRewardsData();
+                }
+            },
+
+            trackProjectWork(projectId) {
+                if (!projectId) return;
+                
+                this.activeProjects.add(projectId);
+                
+                // Update weekly project reward
+                this.updateProgress('weekly', 'weekly-4');
+                
+                // Update monthly project reward
+                this.updateProgress('monthly', 'monthly-5');
+            },
+
+            renderRewards() {
+                // Render all rewards with their current progress
+                for (const type in this.rewards) {
+                    for (const rewardId in this.rewards[type]) {
+                        const reward = this.rewards[type][rewardId];
+                        const card = document.querySelector(`.reward-card[data-id="${rewardId}"]`);
+                        
+                        if (card) {
+                            const progressBar = card.querySelector('.progress-bar div');
+                            const progressText = card.querySelector('.reward-progress span');
+                            
+                            if (progressBar && progressText) {
+                                const percent = Math.min(100, (reward.current / reward.target) * 100);
+                                progressBar.style.width = `${percent}%`;
+                                progressText.textContent = `${reward.current}/${reward.target}`;
+                                
+                                if (reward.completed) {
+                                    card.classList.add('completed');
+                                    progressBar.style.backgroundColor = '#4caf50';
+                                } else {
+                                    card.classList.remove('completed');
+                                    progressBar.style.backgroundColor = '#673ab7';
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+
+            renderHistory(filter = 'all') {
+                const historyList = document.getElementById('historyList');
+                if (!historyList) return;
+                
+                historyList.innerHTML = '';
+                
+                const filteredHistory = filter === 'all' 
+                    ? this.history 
+                    : this.history.filter(item => item.type === filter);
+                
+                if (filteredHistory.length === 0) {
+                    historyList.innerHTML = '<p class="empty-message">No rewards earned yet. Keep working!</p>';
+                    return;
+                }
+                
+                filteredHistory.forEach(item => {
+                    const reward = this.rewards[item.type]?.[item.id];
+                    if (!reward) return;
+                    
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item';
+                    
+                    const date = new Date(item.date);
+                    const formattedDate = date.toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+                    
+                    historyItem.innerHTML = `
+                        <div class="history-icon">${item.icon}</div>
+                        <div class="history-details">
+                            <h5>${item.name}</h5>
+                            <p>${reward.description}</p>
+                        </div>
+                        <div class="history-date">${formattedDate}</div>
+                    `;
+                    
+                    historyList.appendChild(historyItem);
+                });
+            }
+        };
+
+        // Initialize the rewards system when the page loads
+        STATE.rewardsSystem = rewardsSystem;
+
+        // Update timerActions.start() to track work days
+        const originalStart = timerActions.start;
+        timerActions.start = function() {
+            const result = originalStart.apply(this, arguments);
+            
+            if (result && result.then) {
+                return result.then(didStart => {
+                    if (didStart) {
+                        rewardsSystem.trackWorkDay();
+                        return didStart;
+                    }
+                    return didStart;
+                });
+            } else {
+                rewardsSystem.trackWorkDay();
+                return result;
+            }
+        };
+
+        // Update timerActions.stop() to track pomodoro completion
+        const originalStop = timerActions.stop;
+        timerActions.stop = function() {
+            originalStop.apply(this, arguments);
+            
+            if (STATE.isWorkMode && STATE.totalSeconds <= 0) {
+                rewardsSystem.trackPomodoroCompletion();
+            }
+        };
+
+        // Update tracking to include rewards
+        const originalUpdateTracking = trackingActions.updateDisplay;
+        trackingActions.updateDisplay = function() {
+            originalUpdateTracking.apply(this, arguments);
+            
+            // Track work time (in minutes)
+            if (STATE.isRunning) {
+                const elapsedSeconds = Math.floor((Date.now() - STATE.lastTrackingUpdate) / 1000);
+                if (elapsedSeconds > 0) {
+                    const minutes = Math.floor(elapsedSeconds / 60);
+                    if (minutes > 0) {
+                        rewardsSystem.trackWorkTime(minutes);
+                    }
+                }
+            }
+        };
+
+        // Update project selection to track project work
+        const originalSetProject = projectActions.setCurrentProject;
+        projectActions.setCurrentProject = function(id) {
+            originalSetProject.apply(this, arguments);
+            rewardsSystem.trackProjectWork(id);
+        };
+
         // ========== Initialization ==========
         function setupEventListeners() {
             DOM.startButton.addEventListener('click', () => {
@@ -2181,6 +3213,9 @@
             
             // Initialize music player
             musicPlayer.init();
+            
+            // Initialize rewards system
+            rewardsSystem.init();
         }
 
         function init() {
