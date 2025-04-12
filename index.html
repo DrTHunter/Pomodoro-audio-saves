@@ -737,6 +737,65 @@
             font-size: 18px;
             cursor: pointer;
         }
+
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .modal h3 {
+            color: #f44336;
+            margin-top: 0;
+        }
+
+        .modal-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-options button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .modal-options button:hover {
+            transform: translateY(-2px);
+        }
+
+        #selectProjectBtn {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        #startWithoutProjectBtn {
+            background-color: #f44336;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -1026,6 +1085,18 @@
         </a>
     </div>
 
+    <!-- Project Warning Modal -->
+    <div id="projectWarningModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>⚠️ No Project Selected</h3>
+            <p>You haven't selected a project to track your time. Would you like to:</p>
+            <div class="modal-options">
+                <button id="selectProjectBtn">Select a Project</button>
+                <button id="startWithoutProjectBtn">Start Without Tracking</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Audio Elements (hidden) -->
     <audio id="meditationBowlsSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/meditation-bowls.wav?raw=true"></audio>
     <audio id="rainSound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/backgroundambiance/rain.wav?raw=true"></audio>
@@ -1139,6 +1210,10 @@
             body: document.body,
             alarmSound: document.getElementById('alarmSound'),
             applauseSound: document.getElementById('applauseSound'),
+            // Modal elements
+            projectWarningModal: document.getElementById('projectWarningModal'),
+            selectProjectBtn: document.getElementById('selectProjectBtn'),
+            startWithoutProjectBtn: document.getElementById('startWithoutProjectBtn'),
             // Music player elements
             nowPlaying: document.getElementById('nowPlaying'),
             playBtn: document.getElementById('playBtn'),
@@ -1182,6 +1257,41 @@
         // ========== Timer Functions ==========
         const timerActions = {
             start() {
+                // Check if we need to show the warning modal
+                if (STATE.isWorkMode && !STATE.currentProject) {
+                    const modal = DOM.projectWarningModal;
+                    modal.style.display = 'flex';
+                    
+                    // Return here to prevent the timer from starting
+                    return new Promise((resolve) => {
+                        // This promise will resolve when the user makes a choice
+                        DOM.selectProjectBtn.onclick = () => {
+                            modal.style.display = 'none';
+                            // Focus the project input to help user select one
+                            DOM.projectInput.focus();
+                            resolve(false); // Timer shouldn't start
+                        };
+                        
+                        DOM.startWithoutProjectBtn.onclick = () => {
+                            modal.style.display = 'none';
+                            // Continue with timer start
+                            STATE.currentProject = null;
+                            resolve(true);
+                        };
+                    }).then((shouldStart) => {
+                        if (shouldStart) {
+                            // Continue with the original start logic
+                            return this._startTimer();
+                        }
+                        return false;
+                    });
+                }
+                
+                // If no modal was shown, just start the timer
+                return this._startTimer();
+            },
+
+            _startTimer() {
                 if (STATE.isRunning) return;
                 
                 if (STATE.totalSeconds <= 0) {
@@ -2010,7 +2120,14 @@
 
         // ========== Initialization ==========
         function setupEventListeners() {
-            DOM.startButton.addEventListener('click', timerActions.start);
+            DOM.startButton.addEventListener('click', () => {
+                timerActions.start().then((didStart) => {
+                    if (didStart) {
+                        // Timer started successfully
+                        console.log("Timer started");
+                    }
+                });
+            });
             DOM.pauseButton.addEventListener('click', timerActions.pause);
             DOM.stopButton.addEventListener('click', timerActions.stop);
             DOM.work25Button.addEventListener('click', () => timerActions.setQuickTime(25, 0, true));
