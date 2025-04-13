@@ -991,6 +991,153 @@
             color: #666;
         }
         
+        /* Calendar Panel Specific */
+        .calendar-panel {
+            width: 700px;
+            max-width: 90vw;
+        }
+        
+        .calendar-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-controls button {
+            padding: 5px 15px;
+            background: #673ab7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-day-header {
+            text-align: center;
+            font-weight: bold;
+            padding: 5px;
+            background: #f0f0f0;
+        }
+        
+        .calendar-day {
+            border: 1px solid #ddd;
+            min-height: 80px;
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .calendar-day:hover {
+            background: #f5f5f5;
+        }
+        
+        .calendar-day.empty {
+            background: #f9f9f9;
+            cursor: default;
+        }
+        
+        .calendar-day.today {
+            border: 2px solid #673ab7;
+        }
+        
+        .calendar-day.selected {
+            background: #e1bee7;
+        }
+        
+        .calendar-day-number {
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+        
+        .calendar-day-summary {
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .calendar-export {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .calendar-export button {
+            padding: 8px 15px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .calendar-export button:hover {
+            background: #3e8e41;
+        }
+        
+        .day-details {
+            background: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+        
+        .day-details h5 {
+            margin-top: 0;
+            color: #673ab7;
+        }
+        
+        #selectedDayTitle {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .day-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .day-stats div {
+            background: white;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        
+        .day-stats span {
+            font-weight: bold;
+            color: #673ab7;
+        }
+        
+        .day-projects h6 {
+            margin: 10px 0 5px 0;
+            color: #673ab7;
+        }
+        
+        .day-projects ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .day-projects li {
+            padding: 5px;
+            background: white;
+            margin-bottom: 5px;
+            border-radius: 3px;
+            display: flex;
+            justify-content: space-between;
+        }
         /* Donate Panel Specific */
         .donate-panel {
             width: 280px;
@@ -1093,6 +1240,7 @@
             <div class="item" data-panel="sounds">🎵 Background Sounds</div>
             <div class="item" data-panel="music">🎧 LoFi Music</div>
             <div class="item" data-panel="rewards">🏆 Rewards</div>
+            <div class="item" data-panel="calendar">📅 Work Calendar</div>
             <div class="item" data-panel="donate">☕ Support</div>
         </div>
     </div>
@@ -1630,6 +1778,40 @@
         </a>
     </div>
 
+    <!-- Calendar Panel -->
+        <div class="panel calendar-panel" id="calendarPanel">
+            <button class="close-btn" id="closeCalendar">×</button>
+            <h3>Work Calendar</h3>
+            
+            <div class="calendar-controls">
+                <button id="prevMonthBtn">◀</button>
+                <h4 id="currentMonthYear">Month Year</h4>
+                <button id="nextMonthBtn">▶</button>
+            </div>
+            
+            <div class="calendar-grid" id="calendarGrid"></div>
+            
+            <div class="calendar-export">
+                <button id="exportMonthBtn">Export Month Report</button>
+                <button id="exportWeekBtn">Export Week Report</button>
+                <button id="exportDayBtn">Export Day Report</button>
+            </div>
+            
+            <div class="day-details" id="dayDetails">
+                <h5>Day Details</h5>
+                <div id="selectedDayTitle">No day selected</div>
+                <div class="day-stats">
+                    <div>Work Time: <span id="dayWorkTime">0h 0m</span></div>
+                    <div>Break Time: <span id="dayBreakTime">0h 0m</span></div>
+                    <div>Pomodoros: <span id="dayPomodoros">0</span></div>
+                </div>
+                <div class="day-projects" id="dayProjects">
+                    <h6>Projects Worked On</h6>
+                    <ul id="projectsList"></ul>
+                </div>
+            </div>
+        </div>
+    
     <!-- Project Warning Modal -->
     <div id="projectWarningModal" class="modal" style="display: none;">
         <div class="modal-content">
@@ -3141,6 +3323,460 @@
         // Initialize the rewards system when the page loads
         STATE.rewardsSystem = rewardsSystem;
 
+        // Calendar System
+const calendarSystem = {
+    currentDate: new Date(),
+    selectedDate: null,
+    workData: {},
+    
+    init() {
+        this.loadWorkData();
+        this.setupEventListeners();
+        this.renderCalendar();
+        
+        // Close button
+        document.getElementById('closeCalendar').addEventListener('click', () => {
+            document.getElementById('calendarPanel').classList.remove('show');
+        });
+    },
+    
+    setupEventListeners() {
+        document.getElementById('prevMonthBtn').addEventListener('click', () => {
+            this.currentDate.setMonth(this.currentDate.getMonth() - 1);
+            this.renderCalendar();
+        });
+        
+        document.getElementById('nextMonthBtn').addEventListener('click', () => {
+            this.currentDate.setMonth(this.currentDate.getMonth() + 1);
+            this.renderCalendar();
+        });
+        
+        document.getElementById('exportMonthBtn').addEventListener('click', () => {
+            this.exportReport('month');
+        });
+        
+        document.getElementById('exportWeekBtn').addEventListener('click', () => {
+            this.exportReport('week');
+        });
+        
+        document.getElementById('exportDayBtn').addEventListener('click', () => {
+            this.exportReport('day');
+        });
+    },
+    
+    loadWorkData() {
+        const savedData = localStorage.getItem('workCalendarData');
+        if (savedData) {
+            this.workData = JSON.parse(savedData);
+        }
+    },
+    
+    saveWorkData() {
+        localStorage.setItem('workCalendarData', JSON.stringify(this.workData));
+    },
+    
+    recordWorkSession(date, workSeconds, breakSeconds, projectId) {
+        const dateKey = this.getDateKey(date);
+        
+        if (!this.workData[dateKey]) {
+            this.workData[dateKey] = {
+                workTime: 0,
+                breakTime: 0,
+                pomodoros: 0,
+                projects: {}
+            };
+        }
+        
+        this.workData[dateKey].workTime += workSeconds;
+        this.workData[dateKey].breakTime += breakSeconds;
+        this.workData[dateKey].pomodoros += 1;
+        
+        if (projectId) {
+            if (!this.workData[dateKey].projects[projectId]) {
+                this.workData[dateKey].projects[projectId] = {
+                    workTime: 0,
+                    breakTime: 0,
+                    pomodoros: 0
+                };
+            }
+            
+            this.workData[dateKey].projects[projectId].workTime += workSeconds;
+            this.workData[dateKey].projects[projectId].breakTime += breakSeconds;
+            this.workData[dateKey].projects[projectId].pomodoros += 1;
+        }
+        
+        this.saveWorkData();
+    },
+    
+    getDateKey(date) {
+        return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    },
+    
+    renderCalendar() {
+        const calendarGrid = document.getElementById('calendarGrid');
+        const monthYearDisplay = document.getElementById('currentMonthYear');
+        
+        // Clear previous calendar
+        calendarGrid.innerHTML = '';
+        
+        // Set month/year display
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                          "July", "August", "September", "October", "November", "December"];
+        monthYearDisplay.textContent = `${monthNames[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
+        
+        // Add day headers
+        const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+        dayNames.forEach(day => {
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'calendar-day-header';
+            dayHeader.textContent = day;
+            calendarGrid.appendChild(dayHeader);
+        });
+        
+        // Get first day of month and total days in month
+        const firstDay = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1).getDay();
+        const daysInMonth = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0).getDate();
+        
+        // Add empty cells for days before the first day of the month
+        for (let i = 0; i < firstDay; i++) {
+            const emptyDay = document.createElement('div');
+            emptyDay.className = 'calendar-day empty';
+            calendarGrid.appendChild(emptyDay);
+        }
+        
+        // Add days of the month
+        const today = new Date();
+        const todayKey = this.getDateKey(today);
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const date = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
+            const dateKey = this.getDateKey(date);
+            
+            const dayElement = document.createElement('div');
+            dayElement.className = 'calendar-day';
+            
+            // Highlight today
+            if (date.toDateString() === today.toDateString()) {
+                dayElement.classList.add('today');
+            }
+            
+            // Highlight selected day
+            if (this.selectedDate && date.toDateString() === this.selectedDate.toDateString()) {
+                dayElement.classList.add('selected');
+            }
+            
+            // Add day number
+            const dayNumber = document.createElement('div');
+            dayNumber.className = 'calendar-day-number';
+            dayNumber.textContent = day;
+            dayElement.appendChild(dayNumber);
+            
+            // Add work summary if available
+            if (this.workData[dateKey]) {
+                const workHours = Math.floor(this.workData[dateKey].workTime / 3600);
+                const workMins = Math.floor((this.workData[dateKey].workTime % 3600) / 60);
+                const pomodoros = this.workData[dateKey].pomodoros;
+                
+                const summary = document.createElement('div');
+                summary.className = 'calendar-day-summary';
+                summary.innerHTML = `
+                    <div>${workHours}h ${workMins}m</div>
+                    <div>${pomodoros} 🍅</div>
+                `;
+                dayElement.appendChild(summary);
+            }
+            
+            // Add click handler
+            dayElement.addEventListener('click', () => {
+                this.selectedDate = date;
+                this.renderCalendar();
+                this.renderDayDetails();
+            });
+            
+            calendarGrid.appendChild(dayElement);
+        }
+    },
+    
+    renderDayDetails() {
+        if (!this.selectedDate) return;
+        
+        const dateKey = this.getDateKey(this.selectedDate);
+        const dayDetails = this.workData[dateKey] || {
+            workTime: 0,
+            breakTime: 0,
+            pomodoros: 0,
+            projects: {}
+        };
+        
+        // Format date
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('selectedDayTitle').textContent = this.selectedDate.toLocaleDateString('en-US', options);
+        
+        // Format times
+        const workHours = Math.floor(dayDetails.workTime / 3600);
+        const workMins = Math.floor((dayDetails.workTime % 3600) / 60);
+        const breakHours = Math.floor(dayDetails.breakTime / 3600);
+        const breakMins = Math.floor((dayDetails.breakTime % 3600) / 60);
+        
+        document.getElementById('dayWorkTime').textContent = `${workHours}h ${workMins}m`;
+        document.getElementById('dayBreakTime').textContent = `${breakHours}h ${breakMins}m`;
+        document.getElementById('dayPomodoros').textContent = dayDetails.pomodoros;
+        
+        // Render projects
+        const projectsList = document.getElementById('projectsList');
+        projectsList.innerHTML = '';
+        
+        for (const projectId in dayDetails.projects) {
+            const projectData = dayDetails.projects[projectId];
+            const project = STATE.projects.find(p => p.id === projectId);
+            
+            if (project) {
+                const pWorkHours = Math.floor(projectData.workTime / 3600);
+                const pWorkMins = Math.floor((projectData.workTime % 3600) / 60);
+                
+                const projectItem = document.createElement('li');
+                projectItem.innerHTML = `
+                    <span>${project.name}</span>
+                    <span>${pWorkHours}h ${pWorkMins}m (${projectData.pomodoros} 🍅)</span>
+                `;
+                projectsList.appendChild(projectItem);
+            }
+        }
+    },
+    
+    exportReport(type) {
+        let reportData = [];
+        let reportTitle = '';
+        
+        if (type === 'day' && this.selectedDate) {
+            const dateKey = this.getDateKey(this.selectedDate);
+            const dayData = this.workData[dateKey];
+            
+            if (dayData) {
+                reportTitle = `Work Report - ${this.selectedDate.toLocaleDateString()}`;
+                
+                // Format times
+                const workHours = Math.floor(dayData.workTime / 3600);
+                const workMins = Math.floor((dayData.workTime % 3600) / 60);
+                const breakHours = Math.floor(dayData.breakTime / 3600);
+                const breakMins = Math.floor((dayData.breakTime % 3600) / 60);
+                
+                reportData.push({
+                    "Metric": "Total",
+                    "Work Time": `${workHours}h ${workMins}m`,
+                    "Break Time": `${breakHours}h ${breakMins}m`,
+                    "Pomodoros": dayData.pomodoros
+                });
+                
+                // Add projects
+                for (const projectId in dayData.projects) {
+                    const projectData = dayData.projects[projectId];
+                    const project = STATE.projects.find(p => p.id === projectId);
+                    
+                    if (project) {
+                        const pWorkHours = Math.floor(projectData.workTime / 3600);
+                        const pWorkMins = Math.floor((projectData.workTime % 3600) / 60);
+                        
+                        reportData.push({
+                            "Metric": project.name,
+                            "Work Time": `${pWorkHours}h ${pWorkMins}m`,
+                            "Break Time": `${Math.floor(projectData.breakTime / 3600)}h ${Math.floor((projectData.breakTime % 3600) / 60)}m`,
+                            "Pomodoros": projectData.pomodoros
+                        });
+                    }
+                }
+            }
+        } else if (type === 'week') {
+            // Get start and end of week
+            const weekStart = new Date(this.selectedDate || this.currentDate);
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // Start on Sunday
+            
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            
+            reportTitle = `Weekly Report - ${weekStart.toLocaleDateString()} to ${weekEnd.toLocaleDateString()}`;
+            
+            let totalWork = 0;
+            let totalBreak = 0;
+            let totalPomodoros = 0;
+            const projectsData = {};
+            
+            // Aggregate data for each day of the week
+            for (let i = 0; i < 7; i++) {
+                const currentDate = new Date(weekStart);
+                currentDate.setDate(currentDate.getDate() + i);
+                const dateKey = this.getDateKey(currentDate);
+                
+                if (this.workData[dateKey]) {
+                    totalWork += this.workData[dateKey].workTime;
+                    totalBreak += this.workData[dateKey].breakTime;
+                    totalPomodoros += this.workData[dateKey].pomodoros;
+                    
+                    // Aggregate project data
+                    for (const projectId in this.workData[dateKey].projects) {
+                        if (!projectsData[projectId]) {
+                            projectsData[projectId] = {
+                                workTime: 0,
+                                breakTime: 0,
+                                pomodoros: 0
+                            };
+                        }
+                        
+                        projectsData[projectId].workTime += this.workData[dateKey].projects[projectId].workTime;
+                        projectsData[projectId].breakTime += this.workData[dateKey].projects[projectId].breakTime;
+                        projectsData[projectId].pomodoros += this.workData[dateKey].projects[projectId].pomodoros;
+                    }
+                }
+            }
+            
+            // Add totals
+            reportData.push({
+                "Metric": "Total",
+                "Work Time": `${Math.floor(totalWork / 3600)}h ${Math.floor((totalWork % 3600) / 60)}m`,
+                "Break Time": `${Math.floor(totalBreak / 3600)}h ${Math.floor((totalBreak % 3600) / 60)}m`,
+                "Pomodoros": totalPomodoros
+            });
+            
+            // Add projects
+            for (const projectId in projectsData) {
+                const projectData = projectsData[projectId];
+                const project = STATE.projects.find(p => p.id === projectId);
+                
+                if (project) {
+                    reportData.push({
+                        "Metric": project.name,
+                        "Work Time": `${Math.floor(projectData.workTime / 3600)}h ${Math.floor((projectData.workTime % 3600) / 60)}m`,
+                        "Break Time": `${Math.floor(projectData.breakTime / 3600)}h ${Math.floor((projectData.breakTime % 3600) / 60)}m`,
+                        "Pomodoros": projectData.pomodoros
+                    });
+                }
+            }
+        } else if (type === 'month') {
+            // Get start and end of month
+            const monthStart = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1);
+            const monthEnd = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0);
+            
+            reportTitle = `Monthly Report - ${monthStart.toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}`;
+            
+            let totalWork = 0;
+            let totalBreak = 0;
+            let totalPomodoros = 0;
+            const projectsData = {};
+            
+            // Aggregate data for each day of the month
+            for (let day = 1; day <= monthEnd.getDate(); day++) {
+                const currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), day);
+                const dateKey = this.getDateKey(currentDate);
+                
+                if (this.workData[dateKey]) {
+                    totalWork += this.workData[dateKey].workTime;
+                    totalBreak += this.workData[dateKey].breakTime;
+                    totalPomodoros += this.workData[dateKey].pomodoros;
+                    
+                    // Aggregate project data
+                    for (const projectId in this.workData[dateKey].projects) {
+                        if (!projectsData[projectId]) {
+                            projectsData[projectId] = {
+                                workTime: 0,
+                                breakTime: 0,
+                                pomodoros: 0
+                            };
+                        }
+                        
+                        projectsData[projectId].workTime += this.workData[dateKey].projects[projectId].workTime;
+                        projectsData[projectId].breakTime += this.workData[dateKey].projects[projectId].breakTime;
+                        projectsData[projectId].pomodoros += this.workData[dateKey].projects[projectId].pomodoros;
+                    }
+                }
+            }
+            
+            // Add totals
+            reportData.push({
+                "Metric": "Total",
+                "Work Time": `${Math.floor(totalWork / 3600)}h ${Math.floor((totalWork % 3600) / 60)}m`,
+                "Break Time": `${Math.floor(totalBreak / 3600)}h ${Math.floor((totalBreak % 3600) / 60)}m`,
+                "Pomodoros": totalPomodoros
+            });
+            
+            // Add projects
+            for (const projectId in projectsData) {
+                const projectData = projectsData[projectId];
+                const project = STATE.projects.find(p => p.id === projectId);
+                
+                if (project) {
+                    reportData.push({
+                        "Metric": project.name,
+                        "Work Time": `${Math.floor(projectData.workTime / 3600)}h ${Math.floor((projectData.workTime % 3600) / 60)}m`,
+                        "Break Time": `${Math.floor(projectData.breakTime / 3600)}h ${Math.floor((projectData.breakTime % 3600) / 60)}m`,
+                        "Pomodoros": projectData.pomodoros
+                    });
+                }
+            }
+        }
+        
+        if (reportData.length > 0) {
+            this.downloadReport(reportTitle, reportData);
+        } else {
+            alert("No data available for the selected period.");
+        }
+    },
+    
+    downloadReport(title, data) {
+        // Convert to CSV
+        let csv = title + '\n\n';
+        
+        // Headers
+        const headers = Object.keys(data[0]);
+        csv += headers.join(',') + '\n';
+        
+        // Data rows
+        data.forEach(row => {
+            csv += headers.map(header => row[header]).join(',') + '\n';
+        });
+        
+        // Create download link
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('hidden', '');
+        a.setAttribute('href', url);
+        a.setAttribute('download', `${title.replace(/ /g, '_')}.csv`);
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+};
+
+        // Initialize the calendar system when the page loads
+        STATE.calendarSystem = calendarSystem;
+        
+        // Update timerActions.stop() to record work sessions
+        const originalTimerStop = timerActions.stop;
+        timerActions.stop = function() {
+            originalTimerStop.apply(this, arguments);
+            
+            if (STATE.sessionStartTime) {
+                const sessionEndTime = new Date();
+                const sessionDuration = Math.floor((sessionEndTime - STATE.sessionStartTime) / 1000);
+                
+                if (STATE.isWorkMode) {
+                    STATE.calendarSystem.recordWorkSession(
+                        new Date(),
+                        sessionDuration,
+                        0,
+                        STATE.currentProject
+                    );
+                } else {
+                    STATE.calendarSystem.recordWorkSession(
+                        new Date(),
+                        0,
+                        sessionDuration,
+                        STATE.currentProject
+                    );
+                }
+            }
+        };
+        
         // Update timerActions.start() to track work days
         const originalStart = timerActions.start;
         timerActions.start = function() {
@@ -3269,6 +3905,32 @@
             });
         }
 
+        function init() {
+            setupEventListeners();
+            
+            // Load saved state
+            STATE.totalWorkSeconds = parseInt(localStorage.getItem('totalWorkSeconds')) || 0;
+            STATE.totalBreakSeconds = parseInt(localStorage.getItem('totalBreakSeconds')) || 0;
+            trackingActions.updateDisplay();
+            
+            projectActions.loadProjects();
+            timerActions.updateModeIndicator();
+            
+            // Set initial progress circle
+            DOM.timerProgress.style.background = `conic-gradient(var(--primary-blue) 0%, transparent 0%)`;
+            
+            // Initialize audio elements
+            document.querySelectorAll('audio').forEach(audio => {
+                audio.volume = 0.5;
+                audio.addEventListener('error', (e) => {
+                    console.error('Audio error:', e.target.src, 'failed to load');
+                });
+            });
+            
+            // Initialize calendar system
+            calendarSystem.init();
+        }
+        
         init();
     </script>
 </body>
