@@ -3983,7 +3983,7 @@ const calendarSystem = {
                     projectActions.addProject();
                 }
             });
-
+        
             // Handle timer display edits
             DOM.timer.addEventListener('blur', () => {
                 const timeString = DOM.timer.textContent;
@@ -3998,20 +3998,14 @@ const calendarSystem = {
                     DOM.timer.blur();
                 }
             });
-
-            // Initialize dropdown menu
-            dropdownActions.init();
-            
+        
             // Initialize music player
             musicPlayer.init();
-            
-            // Initialize rewards system
-            rewardsSystem.init();
         }
-
-                function init() {
+        
+        function init() {
             setupEventListeners();
-    
+        
             // Load saved state
             STATE.totalWorkSeconds = parseInt(localStorage.getItem('totalWorkSeconds')) || 0;
             STATE.totalBreakSeconds = parseInt(localStorage.getItem('totalBreakSeconds')) || 0;
@@ -4033,11 +4027,16 @@ const calendarSystem = {
             
             // Initialize systems
             STATE.rewardsSystem = rewardsSystem;
-            STATE.rewardsSystem.init();
-            
             STATE.calendarSystem = calendarSystem;
-            STATE.calendarSystem.init();
         }
+        
+        // Initialize everything when the page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            init();
+            rewardsSystem.init();
+            calendarSystem.init();
+            dropdownActions.init(); // Make sure this is called last
+        });
         
         init();
     </script>
