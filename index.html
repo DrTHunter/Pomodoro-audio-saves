@@ -1986,6 +1986,8 @@
             breakGif: 'assets/break-animation.gif',
             projects: [],
             currentProject: null,
+            rewardsSystem: null,
+            calendarSystem: null
             // Music player state
             isPlaying: false,
             currentTrackIndex: -1,
@@ -1994,8 +1996,6 @@
                 duration: item.querySelector('.track-duration').textContent,
                 src: item.getAttribute('data-src')
             })),
-            // Rewards system
-            rewardsSystem: null
         };
 
         // ========== Timer Functions ==========
@@ -2003,38 +2003,41 @@
             start() {
                 // Check if we need to show the warning modal
                 if (STATE.isWorkMode && !STATE.currentProject) {
-                    const modal = DOM.projectWarningModal;
-                    modal.style.display = 'flex';
-                    
-                    // Return here to prevent the timer from starting
                     return new Promise((resolve) => {
-                        // This promise will resolve when the user makes a choice
-                        DOM.selectProjectBtn.onclick = () => {
+                        const modal = DOM.projectWarningModal;
+                        modal.style.display = 'flex';
+                        
+                        const selectHandler = () => {
                             modal.style.display = 'none';
-                            // Focus the project input to help user select one
+                            DOM.selectProjectBtn.removeEventListener('click', selectHandler);
+                            DOM.startWithoutProjectBtn.removeEventListener('click', startHandler);
                             DOM.projectInput.focus();
-                            resolve(false); // Timer shouldn't start
+                            resolve(false);
                         };
                         
-                        DOM.startWithoutProjectBtn.onclick = () => {
+                        const startHandler = () => {
                             modal.style.display = 'none';
-                            // Continue with timer start
+                            DOM.selectProjectBtn.removeEventListener('click', selectHandler);
+                            DOM.startWithoutProjectBtn.removeEventListener('click', startHandler);
                             STATE.currentProject = null;
                             resolve(true);
                         };
+                        
+                        DOM.selectProjectBtn.addEventListener('click', selectHandler);
+                        DOM.startWithoutProjectBtn.addEventListener('click', startHandler);
                     }).then((shouldStart) => {
                         if (shouldStart) {
-                            // Continue with the original start logic
+                            rewardsSystem.trackWorkDay();
                             return this._startTimer();
                         }
                         return false;
                     });
                 }
                 
-                // If no modal was shown, just start the timer
+                rewardsSystem.trackWorkDay();
                 return this._startTimer();
             },
-
+        
             _startTimer() {
                 if (STATE.isRunning) return;
                 
@@ -2061,6 +2064,7 @@
                 } else {
                     DOM.leftAnimalGif.src = STATE.breakGif;
                     DOM.rightAnimalGif.src = STATE.breakGif;
+                    rewardsSystem.trackBreakTaken();
                 }
                 
                 STATE.timer = setInterval(() => {
@@ -2100,21 +2104,17 @@
                     }
                     
                     if (STATE.totalSeconds === 0) {
-                        // Configure alarm
-                        DOM.alarmSound.volume = 1.0; // Max volume
+                        DOM.alarmSound.volume = 1.0;
                         DOM.alarmSound.currentTime = 0;
                         
-                        // First play
                         DOM.alarmSound.play()
                             .then(() => {
-                                // When first play finishes, play again
                                 DOM.alarmSound.currentTime = 0;
                                 DOM.alarmSound.play()
                                     .catch(e => console.error("Second alarm play failed:", e));
                             })
                             .catch(e => console.error("First alarm play failed:", e));
                         
-                        // Only trigger confetti for work sessions
                         if (STATE.isWorkMode) {
                             celebrationActions.triggerCelebration();
                         }
@@ -2180,6 +2180,7 @@
                         } else {
                             DOM.leftAnimalGif.src = STATE.breakGif;
                             DOM.rightAnimalGif.src = STATE.breakGif;
+                            rewardsSystem.trackBreakTaken();
                         }
                         
                         if (STATE.isWorkMode) {
@@ -2202,7 +2203,184 @@
                     }
                 }, 1000);
             },
-
+        
+            pause() {
+                if (STATE.isRunning) {
+                    clearInterval(STATE.timer);
+                    STATE.isRunning = false;
+                    STATE.isPaused = true;
+                    DOM.startButton.style.display = 'inline-block';
+                    DOM.pauseButton.style.display = 'none';
+                    DOM.stopButton.style.display = 'inline-block';
+                    
+                    const now = new Date();
+                    const sessionDuration = Math.floor((now - STATE.sessionStartTime) / 1000);
+                    
+                    if (STATE.isWorkMode) {
+                        STATE.totalWorkSeconds += sessionDuration;
+                        if (STATE.currentProject) {
+                            const project = STATE.projects.find(p => p.id === STATE.currentProject);
+                            if (project) {
+                                project.workTime += sessionDuration;
+                                projectActions.saveProjects();
+                                projectActions.renderProjects();
+                            }
+                        }
+                    } else {
+                        STATE.totalBreakSeconds += sessionDuration;
+                        if (STATE.currentProject) {
+                            const project = STATE.projects.find(p => p.id === STATE.currentProject);
+                            if (project) {
+                                project.breakTime += sessionDuration;
+                                projectActions.saveProjects();
+                                projectActions.renderProjects();
+                            }
+                        }
+                    }
+                    
+                    trackingActions.updateDisplay();
+                    STATE.sessionStartTime = null;
+                }
+            },
+        
+            stop() {
+                if (STATE.isRunning || STATE.isPaused) {
+                    clearInterval(STATE.timer);
+                    STATE.isRunning = false;
+                    STATE.isPaused = false;
+                    DOM.startButton.style.display = 'inline-block';
+                    DOM.pauseButton.style.display = 'none';
+                    DOM.stopButton.style.display = 'none';
+                    
+                    if (STATE.sessionStartTime) {
+                        const sessionEndTime = new Date();
+                        const sessionDuration = Math.floor((sessionEndTime - STATE.sessionStartTime) / 1000);
+                        
+                        // Record to calendar system
+                        if (STATE.isWorkMode) {
+                            STATE.calendarSystem.recordWorkSession(
+                                new Date(),
+                                sessionDuration,
+                                0,
+                                STATE.currentProject
+                            );
+                        } else {
+                            STATE.calendarSystem.recordWorkSession(
+                                new Date(),
+                                0,
+                                sessionDuration,
+                                STATE.currentProject
+                            );
+                        }
+                        
+                        // Update time tracking
+                        if (STATE.isWorkMode) {
+                            STATE.totalWorkSeconds += sessionDuration;
+                            STATE.completedSessions++;
+                            if (STATE.currentProject) {
+                                const project = STATE.projects.find(p => p.id === STATE.currentProject);
+                                if (project) {
+                                    project.pomodoros++;
+                                    project.workTime += sessionDuration;
+                                    projectActions.saveProjects();
+                                    projectActions.renderProjects();
+                                }
+                            }
+                        } else {
+                            STATE.totalBreakSeconds += sessionDuration;
+                            if (STATE.currentProject) {
+                                const project = STATE.projects.find(p => p.id === STATE.currentProject);
+                                if (project) {
+                                    project.breaks++;
+                                    project.breakTime += sessionDuration;
+                                    projectActions.saveProjects();
+                                    projectActions.renderProjects();
+                                }
+                            }
+                        }
+                        
+                        trackingActions.updateDisplay();
+                        STATE.sessionStartTime = null;
+                        
+                        // Track pomodoro completion for rewards
+                        if (STATE.isWorkMode && STATE.totalSeconds <= 0) {
+                            rewardsSystem.trackPomodoroCompletion();
+                        }
+                    }
+                }
+            },
+        
+            updateDisplay() {
+                const minutes = Math.floor(Math.abs(STATE.totalSeconds) / 60);
+                const seconds = Math.abs(STATE.totalSeconds) % 60;
+                const sign = STATE.totalSeconds < 0 ? '-' : '';
+                DOM.timer.textContent = `${sign}${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (STATE.totalSeconds < 0) {
+                    DOM.timer.classList.add('negative-timer');
+                } else {
+                    DOM.timer.classList.remove('negative-timer');
+                    if (STATE.totalSeconds <= 60) {
+                        DOM.timer.style.color = '#f44336';
+                        DOM.timer.style.animation = 'pulse 1s infinite';
+                    } else if (STATE.totalSeconds <= 300) {
+                        DOM.timer.style.color = '#ff9800';
+                        DOM.timer.style.animation = 'none';
+                    } else {
+                        DOM.timer.style.color = STATE.isWorkMode ? 'var(--work-text)' : 'var(--break-text)';
+                        DOM.timer.style.animation = 'none';
+                    }
+                }
+            },
+        
+            setQuickTime(minutes, seconds, workMode) {
+                this.stop();
+                DOM.timer.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                STATE.totalSeconds = minutes * 60 + seconds;
+                STATE.initialSeconds = STATE.totalSeconds;
+                STATE.isWorkMode = workMode;
+                DOM.timerProgress.style.background = `conic-gradient(var(--primary-blue) 0%, transparent 0%)`;
+                this.updateDisplay();
+                this.updateModeIndicator();
+                
+                DOM.body.classList.remove('work-mode', 'break-mode');
+                DOM.body.classList.add(STATE.isWorkMode ? 'work-mode' : 'break-mode');
+                
+                if (STATE.isWorkMode) {
+                    DOM.leftAnimalGif.src = 'assets/working-dog-animation.gif';
+                    DOM.rightAnimalGif.src = 'assets/working-dog-animation.gif';
+                } else {
+                    DOM.leftAnimalGif.src = STATE.breakGif;
+                    DOM.rightAnimalGif.src = STATE.breakGif;
+                }
+            },
+        
+            setMode(workMode) {
+                STATE.isWorkMode = workMode;
+                timerActions.updateModeIndicator();
+                
+                DOM.body.classList.remove('work-mode', 'break-mode');
+                DOM.body.classList.add(STATE.isWorkMode ? 'work-mode' : 'break-mode');
+                
+                if (STATE.isWorkMode) {
+                    DOM.leftAnimalGif.src = 'assets/working-dog-animation.gif';
+                    DOM.rightAnimalGif.src = 'assets/working-dog-animation.gif';
+                } else {
+                    DOM.leftAnimalGif.src = STATE.breakGif;
+                    DOM.rightAnimalGif.src = STATE.breakGif;
+                }
+            },
+        
+            updateModeIndicator() {
+                if (STATE.isWorkMode) {
+                    DOM.modeIndicator.textContent = "Work Time";
+                    DOM.modeIndicator.className = "mode-indicator work-mode";
+                } else {
+                    DOM.modeIndicator.textContent = "Break Time";
+                    DOM.modeIndicator.className = "mode-indicator break-mode";
+                }
+            }
+        };
             pause() {
                 if (STATE.isRunning) {
                     clearInterval(STATE.timer);
@@ -3916,7 +4094,7 @@ const calendarSystem = {
 
                 function init() {
             setupEventListeners();
-            
+    
             // Load saved state
             STATE.totalWorkSeconds = parseInt(localStorage.getItem('totalWorkSeconds')) || 0;
             STATE.totalBreakSeconds = parseInt(localStorage.getItem('totalBreakSeconds')) || 0;
@@ -3936,10 +4114,11 @@ const calendarSystem = {
                 });
             });
             
-            // Initialize rewards system
-            rewardsSystem.init();
+            // Initialize systems
+            STATE.rewardsSystem = rewardsSystem;
+            STATE.rewardsSystem.init();
             
-            // Initialize calendar system
+            STATE.calendarSystem = calendarSystem;
             STATE.calendarSystem.init();
         }
         
