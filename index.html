@@ -1922,6 +1922,11 @@
                         DOM.alarmSound.volume = 1.0; // Set to maximum volume
                         DOM.alarmSound.currentTime = 0;
                         DOM.alarmSound.play();
+
+                            // Make the alarm play for 3 seconds
+                        setTimeout(() => {
+                            DOM.alarmSound.pause();
+                        }, 3000);
                         
                         // Only trigger confetti for work sessions
                         if (STATE.isWorkMode) {
