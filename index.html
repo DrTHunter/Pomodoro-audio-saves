@@ -431,8 +431,32 @@
         }
 
         /* Confetti animation */
-        @keyframes fall {
-            to {
+        .confetti-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 1;
+            animation: confetti-fall 3s ease-in forwards;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
                 transform: translateY(100vh) rotate(360deg);
                 opacity: 0;
             }
@@ -1894,8 +1918,14 @@
                     }
                     
                     if (STATE.totalSeconds === 0) {
+                        // Play alarm sound for timer completion
+                        DOM.alarmSound.currentTime = 0;
                         DOM.alarmSound.play();
-                        celebrationActions.triggerCelebration();
+                        
+                        // Only trigger confetti for work sessions
+                        if (STATE.isWorkMode) {
+                            celebrationActions.triggerCelebration();
+                        }
                     }
                     
                     if (STATE.totalSeconds <= 0) {
@@ -2397,9 +2427,10 @@
         // ========== Celebration Functions ==========
         const celebrationActions = {
             triggerCelebration() {
-                DOM.applauseSound.play();
+                // Create confetti
                 this.createConfetti();
                 
+                // Pulse animation for the container
                 DOM.container.style.animation = 'pulse 0.5s 3';
                 setTimeout(() => {
                     DOM.container.style.animation = '';
@@ -2409,59 +2440,46 @@
             createConfetti() {
                 const confettiContainer = document.createElement('div');
                 confettiContainer.className = 'confetti-container';
-                confettiContainer.style.position = 'fixed';
-                confettiContainer.style.top = '0';
-                confettiContainer.style.left = '0';
-                confettiContainer.style.width = '100%';
-                confettiContainer.style.height = '100%';
-                confettiContainer.style.pointerEvents = 'none';
-                confettiContainer.style.zIndex = '1000';
-                
                 document.body.appendChild(confettiContainer);
                 
+                // Create 100 pieces of confetti
                 for (let i = 0; i < 100; i++) {
                     const confetti = document.createElement('div');
                     confetti.className = 'confetti';
                     
-                    const colors = ['#e91e63', '#4caf50', '#2196f3', '#ff9800', '#9c27b0'];
+                    // Random properties for each confetti piece
+                    const colors = ['#e91e63', '#4caf50', '#2196f3', '#ff9800', '#9c27b0', '#673ab7'];
                     const shapes = ['circle', 'square', 'triangle'];
-                    
-                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-                    confetti.style.left = Math.random() * 100 + 'vw';
-                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
-                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
-                    confetti.style.opacity = '1';
-                    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
-                    
+                    const left = Math.random() * 100;
                     const animationDuration = Math.random() * 3 + 2;
-                    confetti.style.animation = `fall ${animationDuration}s linear forwards`;
+                    const delay = Math.random() * 5;
+                    const size = Math.random() * 10 + 5;
                     
-                    const keyframes = `
-                        @keyframes fall {
-                            to {
-                                transform: translateY(100vh) rotate(${Math.random() * 360}deg);
-                                opacity: 0;
-                            }
-                        }
-                    `;
+                    // Apply styles
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.left = `${left}%`;
+                    confetti.style.width = `${size}px`;
+                    confetti.style.height = `${size}px`;
+                    confetti.style.opacity = '1';
+                    confetti.style.animation = `confetti-fall ${animationDuration}s ease-in ${delay}s forwards`;
                     
-                    if (!document.getElementById('confetti-keyframes')) {
-                        const style = document.createElement('style');
-                        style.id = 'confetti-keyframes';
-                        style.innerHTML = keyframes;
-                        document.head.appendChild(style);
+                    // Random shape
+                    if (Math.random() > 0.5) {
+                        confetti.style.borderRadius = '50%';
                     }
                     
                     confettiContainer.appendChild(confetti);
                     
+                    // Remove confetti after animation completes
                     setTimeout(() => {
                         confetti.remove();
-                    }, animationDuration * 1000);
+                    }, (animationDuration + delay) * 1000);
                 }
                 
+                // Remove container after all confetti is gone
                 setTimeout(() => {
                     confettiContainer.remove();
-                }, 3000);
+                }, 8000);
             }
         };
 
@@ -2864,7 +2882,7 @@
                 DOM.rewardModalTitle.textContent = reward.name;
                 DOM.rewardModalDescription.textContent = reward.description;
                 
-                // Play applause sound
+                // Play applause sound for rewards
                 DOM.applauseSound.currentTime = 0;
                 DOM.applauseSound.play();
                 
