@@ -1918,15 +1918,19 @@
                     }
                     
                     if (STATE.totalSeconds === 0) {
-                        // Play alarm sound for timer completion
-                        DOM.alarmSound.volume = 1.0; // Set to maximum volume
+                        // Configure alarm
+                        DOM.alarmSound.volume = 1.0; // Max volume
                         DOM.alarmSound.currentTime = 0;
-                        DOM.alarmSound.play();
-
-                            // Make the alarm play for 3 seconds
-                        setTimeout(() => {
-                            DOM.alarmSound.pause();
-                        }, 3000);
+                        
+                        // First play
+                        DOM.alarmSound.play()
+                            .then(() => {
+                                // When first play finishes, play again
+                                DOM.alarmSound.currentTime = 0;
+                                DOM.alarmSound.play()
+                                    .catch(e => console.error("Second alarm play failed:", e));
+                            })
+                            .catch(e => console.error("First alarm play failed:", e));
                         
                         // Only trigger confetti for work sessions
                         if (STATE.isWorkMode) {
