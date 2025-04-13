@@ -1919,6 +1919,7 @@
                     
                     if (STATE.totalSeconds === 0) {
                         // Play alarm sound for timer completion
+                        DOM.alarmSound.volume = 1.0; // Set to maximum volume
                         DOM.alarmSound.currentTime = 0;
                         DOM.alarmSound.play();
                         
