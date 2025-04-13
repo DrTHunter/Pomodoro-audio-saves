@@ -1778,39 +1778,39 @@
         </a>
     </div>
 
-    <!-- Calendar Panel -->
-        <div class="panel calendar-panel" id="calendarPanel">
-            <button class="close-btn" id="closeCalendar">×</button>
-            <h3>Work Calendar</h3>
-            
-            <div class="calendar-controls">
-                <button id="prevMonthBtn">◀</button>
-                <h4 id="currentMonthYear">Month Year</h4>
-                <button id="nextMonthBtn">▶</button>
+    <!-- Calendar Panel (Correct Version) -->
+    <div class="panel calendar-panel" id="calendarPanel">
+        <button class="close-btn" id="closeCalendar">×</button>
+        <h3>Work Calendar</h3>
+        
+        <div class="calendar-controls">
+            <button id="prevMonthBtn">◀</button>
+            <h4 id="currentMonthYear">Month Year</h4>
+            <button id="nextMonthBtn">▶</button>
+        </div>
+        
+        <div class="calendar-grid" id="calendarGrid"></div>
+        
+        <div class="calendar-export">
+            <button id="exportMonthBtn">Export Month Report</button>
+            <button id="exportWeekBtn">Export Week Report</button>
+            <button id="exportDayBtn">Export Day Report</button>
+        </div>
+        
+        <div class="day-details" id="dayDetails">
+            <h5>Day Details</h5>
+            <div id="selectedDayTitle">No day selected</div>
+            <div class="day-stats">
+                <div>Work Time: <span id="dayWorkTime">0h 0m</span></div>
+                <div>Break Time: <span id="dayBreakTime">0h 0m</span></div>
+                <div>Pomodoros: <span id="dayPomodoros">0</span></div>
             </div>
-            
-            <div class="calendar-grid" id="calendarGrid"></div>
-            
-            <div class="calendar-export">
-                <button id="exportMonthBtn">Export Month Report</button>
-                <button id="exportWeekBtn">Export Week Report</button>
-                <button id="exportDayBtn">Export Day Report</button>
-            </div>
-            
-            <div class="day-details" id="dayDetails">
-                <h5>Day Details</h5>
-                <div id="selectedDayTitle">No day selected</div>
-                <div class="day-stats">
-                    <div>Work Time: <span id="dayWorkTime">0h 0m</span></div>
-                    <div>Break Time: <span id="dayBreakTime">0h 0m</span></div>
-                    <div>Pomodoros: <span id="dayPomodoros">0</span></div>
-                </div>
-                <div class="day-projects" id="dayProjects">
-                    <h6>Projects Worked On</h6>
-                    <ul id="projectsList"></ul>
-                </div>
+            <div class="day-projects" id="dayProjects">
+                <h6>Projects Worked On</h6>
+                <ul id="projectsList"></ul>
             </div>
         </div>
+    </div>
     
     <!-- Project Warning Modal -->
     <div id="projectWarningModal" class="modal" style="display: none;">
@@ -2242,7 +2242,8 @@
                 }
             },
 
-            stop() {
+            // Original stop function (now renamed to originalStop)
+            const originalStop = function() {
                 if (STATE.isRunning || STATE.isPaused) {
                     clearInterval(STATE.timer);
                     STATE.isRunning = false;
@@ -2284,7 +2285,36 @@
                         STATE.sessionStartTime = null;
                     }
                 }
-            },
+            };
+            
+            // Enhanced stop function with calendar recording
+            timerActions.stop = function() {
+                if (STATE.sessionStartTime) {
+                    const sessionEndTime = new Date();
+                    const sessionDuration = Math.floor((sessionEndTime - STATE.sessionStartTime) / 1000);
+                    
+                    if (STATE.isWorkMode) {
+                        STATE.calendarSystem.recordWorkSession(
+                            new Date(),
+                            sessionDuration,
+                            0,
+                            STATE.currentProject
+                        );
+                    } else {
+                        STATE.calendarSystem.recordWorkSession(
+                            new Date(),
+                            0,
+                            sessionDuration,
+                            STATE.currentProject
+                        );
+                    }
+                }
+                
+                // Call the original stop function
+                return originalStop.apply(this, arguments);
+            };
+            
+            // ... next function in the code ...
 
             updateDisplay() {
                 const minutes = Math.floor(Math.abs(STATE.totalSeconds) / 60);
@@ -2712,6 +2742,7 @@
                     sounds: document.getElementById('soundsPanel'),
                     music: document.getElementById('musicPanel'),
                     rewards: document.getElementById('rewardsPanel'),
+                    calendar: document.getElementById('calendarPanel'), 
                     donate: document.getElementById('donatePanel')
                 };
                 
@@ -3332,6 +3363,7 @@ const calendarSystem = {
     init() {
         this.loadWorkData();
         this.setupEventListeners();
+        this.selectedDate = new Date();
         this.renderCalendar();
         
         // Close button
@@ -3882,30 +3914,7 @@ const calendarSystem = {
             rewardsSystem.init();
         }
 
-        function init() {
-            setupEventListeners();
-            
-            // Load saved state
-            STATE.totalWorkSeconds = parseInt(localStorage.getItem('totalWorkSeconds')) || 0;
-            STATE.totalBreakSeconds = parseInt(localStorage.getItem('totalBreakSeconds')) || 0;
-            trackingActions.updateDisplay();
-            
-            projectActions.loadProjects();
-            timerActions.updateModeIndicator();
-            
-            // Set initial progress circle
-            DOM.timerProgress.style.background = `conic-gradient(var(--primary-blue) 0%, transparent 0%)`;
-            
-            // Initialize audio elements
-            document.querySelectorAll('audio').forEach(audio => {
-                audio.volume = 0.5;
-                audio.addEventListener('error', (e) => {
-                    console.error('Audio error:', e.target.src, 'failed to load');
-                });
-            });
-        }
-
-        function init() {
+                function init() {
             setupEventListeners();
             
             // Load saved state
@@ -3927,7 +3936,7 @@ const calendarSystem = {
                 });
             });
             
-            // Initialize calendar system
+            // Initialize calendar system (ADD THIS LINE)
             calendarSystem.init();
         }
         
