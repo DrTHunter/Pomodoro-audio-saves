@@ -635,111 +635,6 @@
             background-color: rgba(0,0,0,0.1);
         }
         
-        /* Music Panel Specific */
-        .music-panel {
-            width: 300px;
-            max-height: 500px;
-            overflow-y: auto;
-        }
-        
-        .music-player {
-            margin-bottom: 15px;
-            padding: 15px;
-            background: #f8f8f8;
-            border-radius: 8px;
-        }
-        
-        .player-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 10px 0;
-        }
-        
-        .player-btn {
-            background: #673ab7;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .player-btn:hover {
-            background: #5e35b1;
-        }
-        
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: #e0e0e0;
-            border-radius: 3px;
-            margin: 10px 0;
-            cursor: pointer;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: #673ab7;
-            border-radius: 3px;
-            width: 0%;
-        }
-        
-        .time-display {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .volume-control {
-            width: 100%;
-            margin: 10px 0;
-        }
-        
-        .track-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .track-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: #f8f8f8;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background 0.2s;
-            font-size: 0.9em;
-        }
-        
-        .track-item:hover {
-            background: #e9e9e9;
-        }
-        
-        .track-item.active {
-            background: #673ab7;
-            color: white;
-        }
-        
-        .track-title {
-            font-weight: 500;
-        }
-        
-        .track-duration {
-            font-size: 12px;
-            color: #666;
-        }
-        
-        .track-item.active .track-duration {
-            color: #ddd;
-        }
-        
         /* Rewards Panel Specific */
         .rewards-panel {
             width: 350px;
@@ -868,7 +763,7 @@
         }
         
         .filter-btn:hover {
-            background: #e0e0e0;
+            background: #e0e0f0;
         }
         
         .filter-btn.active {
@@ -1081,6 +976,125 @@
             background-color: #f44336;
             color: white;
         }
+
+        /* Project Data Tracking Panel */
+        .data-tracking-panel {
+            width: 600px;
+            max-width: 90vw;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .data-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .data-tab-btn {
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .data-tab-btn:hover {
+            color: #673ab7;
+        }
+        
+        .data-tab-btn.active {
+            color: #673ab7;
+            border-bottom-color: #673ab7;
+            font-weight: bold;
+        }
+        
+        .data-tab-content {
+            display: none;
+            padding: 10px 0;
+        }
+        
+        .data-tab-content.active {
+            display: block;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .data-table th, .data-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .data-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .data-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .export-btn {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .export-btn:hover {
+            background-color: #45a049;
+        }
+
+        .time-period-selector {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .time-period-selector select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+
+        .summary-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .summary-stat {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            min-width: 120px;
+        }
+
+        .summary-stat h4 {
+            margin: 0 0 5px 0;
+            color: #673ab7;
+            font-size: 14px;
+        }
+
+        .summary-stat p {
+            margin: 0;
+            font-size: 16px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -1091,8 +1105,8 @@
             <div class="item" data-panel="info">ℹ️ Pomodoro Info</div>
             <div class="item" data-panel="productivity">📊 Productivity Tracking</div>
             <div class="item" data-panel="sounds">🎵 Background Sounds</div>
-            <div class="item" data-panel="music">🎧 LoFi Music</div>
             <div class="item" data-panel="rewards">🏆 Rewards</div>
+            <div class="item" data-panel="dataTracking">📈 Project Data</div>
             <div class="item" data-panel="donate">☕ Support</div>
         </div>
     </div>
@@ -1177,165 +1191,6 @@
             <button id="soundToggle" class="sound-toggle-btn">▶️</button>
         </div>
         <div style="text-align: center;">Volume</div>
-    </div>
-
-    <!-- Music Panel -->
-    <div class="panel music-panel" id="musicPanel">
-        <button class="close-btn" id="closeMusic">×</button>
-        <h3>LoFi Music Player</h3>
-        
-        <div class="music-player">
-            <div id="nowPlaying">Select a track to play</div>
-            <div class="player-controls">
-                <button class="player-btn" id="prevBtn">⏮</button>
-                <button class="player-btn" id="playBtn">▶</button>
-                <button class="player-btn" id="nextBtn">⏭</button>
-            </div>
-            <div class="progress-container" id="progressContainer">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="time-display">
-                <span id="currentTime">0:00</span>
-                <span id="duration">0:00</span>
-            </div>
-            <input type="range" min="0" max="1" step="0.01" value="0.5" class="volume-control" id="musicVolume">
-            <div style="text-align: center;">Volume</div>
-        </div>
-        
-        <div class="track-list">
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/1999_bedroom_beats.wav?raw=true">
-                <div class="track-title">1999 Bedroom Beats</div>
-                <div class="track-duration">2:45</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/cafe_con_leche_beats.wav?raw=true">
-                <div class="track-title">Cafe con Leche Beats</div>
-                <div class="track-duration">3:12</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/cafe_window_rain.wav?raw=true">
-                <div class="track-title">Cafe Window Rain</div>
-                <div class="track-duration">2:58</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/cat_cafe_boogie.wav?raw=true">
-                <div class="track-title">Cat Cafe Boogie</div>
-                <div class="track-duration">3:20</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/diner_booth_dreams.WAV?raw=true">
-                <div class="track-title">Diner Booth Dreams</div>
-                <div class="track-duration">3:45</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/fading_streetlights.wav?raw=true">
-                <div class="track-title">Fading Streetlights</div>
-                <div class="track-duration">4:10</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/falling_through_hourglasses.wav?raw=true">
-                <div class="track-title">Falling Through Hourglasses</div>
-                <div class="track-duration">3:55</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/fingers_on_dusty_keys.wav?raw=true">
-                <div class="track-title">Fingers on Dusty Keys</div>
-                <div class="track-duration">4:15</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/five_am_jazz_club.wav?raw=true">
-                <div class="track-title">Five A.M. Jazz Club</div>
-                <div class="track-duration">5:30</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/fretboard_dreams.wav?raw=true">
-                <div class="track-title">Fretboard Dreams</div>
-                <div class="track-duration">3:40</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/half_speed_heartbeats.wav?raw=true">
-                <div class="track-title">Half-Speed Heartbeats</div>
-                <div class="track-duration">4:25</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/honey_drip_melodies.wav?raw=true">
-                <div class="track-title">Honey Drip Melodies</div>
-                <div class="track-duration">3:50</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/ice_melting_in_slow_motion.wav?raw=true">
-                <div class="track-title">Ice Melting in Slow Motion</div>
-                <div class="track-duration">5:15</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/koi_pond_calculus.wav?raw=true">
-                <div class="track-title">Koi Pond Calculus</div>
-                <div class="track-duration">4:40</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/like_water_in_dreams.wav?raw=true">
-                <div class="track-title">Like Water in Dreams</div>
-                <div class="track-duration">3:35</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/low_key_hustle.wav?raw=true">
-                <div class="track-title">Low-Key Hustle</div>
-                <div class="track-duration">4:05</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/margin_notes_at_2_am.wav?raw=true">
-                <div class="track-title">Margin Notes at 2 AM</div>
-                <div class="track-duration">5:20</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/neon_bicycle.wav?raw=true">
-                <div class="track-title">Neon Bicycle</div>
-                <div class="track-duration">3:30</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/nylon_string_sunset.wav?raw=true">
-                <div class="track-title">Nylon String Sunset</div>
-                <div class="track-duration">4:50</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/pencil_marks_on_sheet_music.wav?raw=true">
-                <div class="track-title">Pencil Marks on Sheet Music</div>
-                <div class="track-duration">3:25</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/pixelated_picnic.wav?raw=true">
-                <div class="track-title">Pixelated Picnic</div>
-                <div class="track-duration">4:15</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/popsicle_summer.wav?raw=true">
-                <div class="track-title">Popsicle Summer</div>
-                <div class="track-duration">3:10</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/smoke_rings_in_b_flat.wav?raw=true">
-                <div class="track-title">Smoke Rings in B-Flat</div>
-                <div class="track-duration">5:45</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/sneaker_scuff_symphony.wav?raw=true">
-                <div class="track-title">Sneaker Scuff Symphony</div>
-                <div class="track-duration">4:30</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/subway_graffiti_heartbeat.wav?raw=true">
-                <div class="track-title">Subway Graffiti Heartbeat</div>
-                <div class="track-duration">3:55</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/sunburn_serenade.wav?raw=true">
-                <div class="track-title">Sunburn Serenade</div>
-                <div class="track-duration">4:20</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/taxi_window_views.wav?raw=true">
-                <div class="track-title">Taxi Window Views</div>
-                <div class="track-duration">5:10</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/the_art_of_slowing_down.wav?raw=true">
-                <div class="track-title">The Art of Slowing Down</div>
-                <div class="track-duration">6:25</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/the_lake_at_4_am.wav?raw=true">
-                <div class="track-title">The Lake at 4 AM</div>
-                <div class="track-duration">7:15</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/the_last_candle_burns.wav?raw=true">
-                <div class="track-title">The Last Candle Burns</div>
-                <div class="track-duration">5:50</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/tickets_to_nowhere.wav?raw=true">
-                <div class="track-title">Tickets to Nowhere</div>
-                <div class="track-duration">4:40</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/vinyl_hustle.wav?raw=true">
-                <div class="track-title">Vinyl Hustle</div>
-                <div class="track-duration">3:55</div>
-            </div>
-            <div class="track-item" data-src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/warm_blanket_thoughts.wav?raw=true">
-                <div class="track-title">Warm Blanket Thoughts</div>
-                <div class="track-duration">6:10</div>
-            </div>
-        </div>
     </div>
 
     <!-- Rewards Panel -->
@@ -1605,6 +1460,146 @@
         </div>
     </div>
 
+    <!-- Project Data Tracking Panel -->
+    <div class="panel data-tracking-panel" id="dataTrackingPanel">
+        <button class="close-btn" id="closeDataTracking">×</button>
+        <h3>Project Data Tracking</h3>
+        
+        <div class="data-tabs">
+            <button class="data-tab-btn active" data-tab="daily">Daily</button>
+            <button class="data-tab-btn" data-tab="weekly">Weekly</button>
+            <button class="data-tab-btn" data-tab="monthly">Monthly</button>
+        </div>
+        
+        <div class="data-tab-content active" id="daily-data-tab">
+            <div class="time-period-selector">
+                <label for="daily-date-select">Select Date:</label>
+                <select id="daily-date-select">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <h4>Total Work Time</h4>
+                    <p id="daily-work-summary">00:00:00</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Total Break Time</h4>
+                    <p id="daily-break-summary">00:00:00</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Pomodoros Completed</h4>
+                    <p id="daily-pomodoros-summary">0</p>
+                </div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Work Time</th>
+                        <th>Break Time</th>
+                        <th>Pomodoros</th>
+                    </tr>
+                </thead>
+                <tbody id="daily-data-body">
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <button class="export-btn" onclick="dataTracking.exportToWord('daily')">Export to Word</button>
+        </div>
+        
+        <div class="data-tab-content" id="weekly-data-tab">
+            <div class="time-period-selector">
+                <label for="weekly-date-select">Select Week:</label>
+                <select id="weekly-date-select">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <h4>Total Work Time</h4>
+                    <p id="weekly-work-summary">00:00:00</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Total Break Time</h4>
+                    <p id="weekly-break-summary">00:00:00</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Pomodoros Completed</h4>
+                    <p id="weekly-pomodoros-summary">0</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Days Worked</h4>
+                    <p id="weekly-days-summary">0</p>
+                </div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Work Time</th>
+                        <th>Break Time</th>
+                        <th>Pomodoros</th>
+                    </tr>
+                </thead>
+                <tbody id="weekly-data-body">
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <button class="export-btn" onclick="dataTracking.exportToWord('weekly')">Export to Word</button>
+        </div>
+        
+        <div class="data-tab-content" id="monthly-data-tab">
+            <div class="time-period-selector">
+                <label for="monthly-date-select">Select Month:</label>
+                <select id="monthly-date-select">
+                    <!-- Options will be populated by JavaScript -->
+                </select>
+            </div>
+            
+            <div class="summary-stats">
+                <div class="summary-stat">
+                    <h4>Total Work Time</h4>
+                    <p id="monthly-work-summary">00:00:00</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Total Break Time</h4>
+                    <p id="monthly-break-summary">00:00:00</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Pomodoros Completed</h4>
+                    <p id="monthly-pomodoros-summary">0</p>
+                </div>
+                <div class="summary-stat">
+                    <h4>Days Worked</h4>
+                    <p id="monthly-days-summary">0</p>
+                </div>
+            </div>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Work Time</th>
+                        <th>Break Time</th>
+                        <th>Pomodoros</th>
+                    </tr>
+                </thead>
+                <tbody id="monthly-data-body">
+                    <!-- Data will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <button class="export-btn" onclick="dataTracking.exportToWord('monthly')">Export to Word</button>
+        </div>
+    </div>
+
     <!-- Donate Panel -->
     <div class="panel donate-panel" id="donatePanel">
         <button class="close-btn" id="closeDonate">×</button>
@@ -1672,7 +1667,6 @@
     <audio id="waterfallSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/waterfall.wav?raw=true"></audio>
     <audio id="librarySound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/library.wav?raw=true"></audio>
     <audio id="rainroofSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/rain-roof.wav?raw=true"></audio>
-    <audio id="lofiPlayer"></audio>
     <audio id="alarmSound" src="assets/sounds/alarm.wav" preload="auto"></audio>
     <audio id="applauseSound" src="assets/sounds/applause.mp3" preload="auto"></audio>
 
@@ -1768,24 +1762,31 @@
             projectWarningModal: document.getElementById('projectWarningModal'),
             selectProjectBtn: document.getElementById('selectProjectBtn'),
             startWithoutProjectBtn: document.getElementById('startWithoutProjectBtn'),
-            // Music player elements
-            nowPlaying: document.getElementById('nowPlaying'),
-            playBtn: document.getElementById('playBtn'),
-            prevBtn: document.getElementById('prevBtn'),
-            nextBtn: document.getElementById('nextBtn'),
-            progressBar: document.getElementById('progressBar'),
-            progressContainer: document.getElementById('progressContainer'),
-            currentTime: document.getElementById('currentTime'),
-            duration: document.getElementById('duration'),
-            musicVolume: document.getElementById('musicVolume'),
-            lofiPlayer: document.getElementById('lofiPlayer'),
-            trackItems: document.querySelectorAll('.track-item'),
             // Reward modal elements
             rewardModal: document.getElementById('rewardModal'),
             rewardModalIcon: document.getElementById('rewardModalIcon'),
             rewardModalTitle: document.getElementById('rewardModalTitle'),
             rewardModalDescription: document.getElementById('rewardModalDescription'),
-            closeRewardModal: document.getElementById('closeRewardModal')
+            closeRewardModal: document.getElementById('closeRewardModal'),
+            // Data tracking elements
+            dailyDateSelect: document.getElementById('daily-date-select'),
+            weeklyDateSelect: document.getElementById('weekly-date-select'),
+            monthlyDateSelect: document.getElementById('monthly-date-select'),
+            dailyDataBody: document.getElementById('daily-data-body'),
+            weeklyDataBody: document.getElementById('weekly-data-body'),
+            monthlyDataBody: document.getElementById('monthly-data-body'),
+            dailyWorkSummary: document.getElementById('daily-work-summary'),
+            dailyBreakSummary: document.getElementById('daily-break-summary'),
+            dailyPomodorosSummary: document.getElementById('daily-pomodoros-summary'),
+            weeklyWorkSummary: document.getElementById('weekly-work-summary'),
+            weeklyBreakSummary: document.getElementById('weekly-break-summary'),
+            weeklyPomodorosSummary: document.getElementById('weekly-pomodoros-summary'),
+            weeklyDaysSummary: document.getElementById('weekly-days-summary'),
+            monthlyWorkSummary: document.getElementById('monthly-work-summary'),
+            monthlyBreakSummary: document.getElementById('monthly-break-summary'),
+            monthlyPomodorosSummary: document.getElementById('monthly-pomodoros-summary'),
+            monthlyDaysSummary: document.getElementById('monthly-days-summary'),
+            closeDataTracking: document.getElementById('closeDataTracking')
         };
 
         // ========== State Management ==========
@@ -1804,16 +1805,12 @@
             breakGif: 'assets/break-animation.gif',
             projects: [],
             currentProject: null,
-            // Music player state
-            isPlaying: false,
-            currentTrackIndex: -1,
-            tracks: Array.from(DOM.trackItems).map(item => ({
-                title: item.querySelector('.track-title').textContent,
-                duration: item.querySelector('.track-duration').textContent,
-                src: item.getAttribute('data-src')
-            })),
             // Rewards system
-            rewardsSystem: null
+            rewardsSystem: null,
+            // Data tracking
+            dailyData: {},
+            weeklyData: {},
+            monthlyData: {}
         };
 
         // ========== Timer Functions ==========
@@ -1900,6 +1897,7 @@
                                     project.workTime += elapsedSeconds;
                                     projectActions.saveProjects();
                                     projectActions.renderProjects();
+                                    dataTracking.updateDailyData(project.id, elapsedSeconds, 0, 0);
                                 }
                             }
                         } else {
@@ -1910,6 +1908,7 @@
                                     project.breakTime += elapsedSeconds;
                                     projectActions.saveProjects();
                                     projectActions.renderProjects();
+                                    dataTracking.updateDailyData(project.id, 0, elapsedSeconds, 0);
                                 }
                             }
                         }
@@ -1965,6 +1964,7 @@
                                     project.workTime += sessionDuration;
                                     projectActions.saveProjects();
                                     projectActions.renderProjects();
+                                    dataTracking.updateDailyData(project.id, sessionDuration, 0, 1);
                                 }
                             }
                         } else {
@@ -1976,6 +1976,7 @@
                                     project.breakTime += sessionDuration;
                                     projectActions.saveProjects();
                                     projectActions.renderProjects();
+                                    dataTracking.updateDailyData(project.id, 0, sessionDuration, 0);
                                 }
                             }
                         }
@@ -2037,6 +2038,7 @@
                                 project.workTime += sessionDuration;
                                 projectActions.saveProjects();
                                 projectActions.renderProjects();
+                                dataTracking.updateDailyData(project.id, sessionDuration, 0, 0);
                             }
                         }
                     } else {
@@ -2047,6 +2049,7 @@
                                 project.breakTime += sessionDuration;
                                 projectActions.saveProjects();
                                 projectActions.renderProjects();
+                                dataTracking.updateDailyData(project.id, 0, sessionDuration, 0);
                             }
                         }
                     }
@@ -2079,6 +2082,7 @@
                                     project.workTime += sessionDuration;
                                     projectActions.saveProjects();
                                     projectActions.renderProjects();
+                                    dataTracking.updateDailyData(project.id, sessionDuration, 0, 1);
                                 }
                             }
                         } else {
@@ -2090,6 +2094,7 @@
                                     project.breakTime += sessionDuration;
                                     projectActions.saveProjects();
                                     projectActions.renderProjects();
+                                    dataTracking.updateDailyData(project.id, 0, sessionDuration, 0);
                                 }
                             }
                         }
@@ -2169,127 +2174,6 @@
                     DOM.modeIndicator.textContent = "Break Time";
                     DOM.modeIndicator.className = "mode-indicator break-mode";
                 }
-            }
-        };
-
-        // ========== Music Player Functions ==========
-        const musicPlayer = {
-            init() {
-                // Set up event listeners
-                DOM.playBtn.addEventListener('click', () => this.togglePlay());
-                DOM.prevBtn.addEventListener('click', () => this.prevTrack());
-                DOM.nextBtn.addEventListener('click', () => this.nextTrack());
-                DOM.progressContainer.addEventListener('click', (e) => this.setProgress(e));
-                DOM.musicVolume.addEventListener('input', () => this.setVolume());
-                
-                // Set up track click handlers
-                DOM.trackItems.forEach((item, index) => {
-                    item.addEventListener('click', () => {
-                        this.playTrack(index);
-                    });
-                });
-                
-                // Set up audio event listeners
-                DOM.lofiPlayer.addEventListener('timeupdate', () => this.updateProgress());
-                DOM.lofiPlayer.addEventListener('ended', () => this.nextTrack());
-                DOM.lofiPlayer.addEventListener('loadedmetadata', () => {
-                    this.updateDuration();
-                });
-                
-                // Set initial volume
-                DOM.lofiPlayer.volume = 0.5;
-            },
-            
-            playTrack(index) {
-                if (index >= 0 && index < STATE.tracks.length) {
-                    STATE.currentTrackIndex = index;
-                    const track = STATE.tracks[index];
-                    DOM.lofiPlayer.src = track.src;
-                    DOM.nowPlaying.textContent = `Now Playing: ${track.title}`;
-                    
-                    // Update active track in UI
-                    DOM.trackItems.forEach((item, i) => {
-                        if (i === index) {
-                            item.classList.add('active');
-                        } else {
-                            item.classList.remove('active');
-                        }
-                    });
-                    
-                    this.play();
-                }
-            },
-            
-            togglePlay() {
-                if (STATE.currentTrackIndex === -1 && STATE.tracks.length > 0) {
-                    this.playTrack(0);
-                } else if (STATE.isPlaying) {
-                    this.pause();
-                } else {
-                    this.play();
-                }
-            },
-            
-            play() {
-                DOM.lofiPlayer.play()
-                    .then(() => {
-                        STATE.isPlaying = true;
-                        DOM.playBtn.textContent = '⏸';
-                    })
-                    .catch(e => {
-                        console.error('Error playing track:', e);
-                    });
-            },
-            
-            pause() {
-                DOM.lofiPlayer.pause();
-                STATE.isPlaying = false;
-                DOM.playBtn.textContent = '▶';
-            },
-            
-            prevTrack() {
-                if (STATE.currentTrackIndex > 0) {
-                    this.playTrack(STATE.currentTrackIndex - 1);
-                } else {
-                    this.playTrack(STATE.tracks.length - 1);
-                }
-            },
-            
-            nextTrack() {
-                if (STATE.currentTrackIndex < STATE.tracks.length - 1) {
-                    this.playTrack(STATE.currentTrackIndex + 1);
-                } else {
-                    this.playTrack(0);
-                }
-            },
-            
-            updateProgress() {
-                const { duration, currentTime } = DOM.lofiPlayer;
-                const progressPercent = (currentTime / duration) * 100;
-                DOM.progressBar.style.width = `${progressPercent}%`;
-                
-                // Update current time display
-                const currentMinutes = Math.floor(currentTime / 60);
-                const currentSeconds = Math.floor(currentTime % 60);
-                DOM.currentTime.textContent = `${currentMinutes}:${currentSeconds.toString().padStart(2, '0')}`;
-            },
-            
-            updateDuration() {
-                const duration = DOM.lofiPlayer.duration;
-                const durationMinutes = Math.floor(duration / 60);
-                const durationSeconds = Math.floor(duration % 60);
-                DOM.duration.textContent = `${durationMinutes}:${durationSeconds.toString().padStart(2, '0')}`;
-            },
-            
-            setProgress(e) {
-                const width = DOM.progressContainer.clientWidth;
-                const clickX = e.offsetX;
-                const duration = DOM.lofiPlayer.duration;
-                DOM.lofiPlayer.currentTime = (clickX / width) * duration;
-            },
-            
-            setVolume() {
-                DOM.lofiPlayer.volume = DOM.musicVolume.value;
             }
         };
 
@@ -2430,6 +2314,451 @@
             }
         };
 
+        // ========== Data Tracking Functions ==========
+        const dataTracking = {
+            init() {
+                this.loadData();
+                this.setupEventListeners();
+                this.updateDateSelectors();
+            },
+
+            setupEventListeners() {
+                // Tab switching
+                document.querySelectorAll('.data-tab-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.data-tab-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.data-tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        btn.classList.add('active');
+                        document.getElementById(`${btn.dataset.tab}-data-tab`).classList.add('active');
+                        
+                        // Update the displayed data when switching tabs
+                        if (btn.dataset.tab === 'daily') {
+                            this.updateDailyDataDisplay();
+                        } else if (btn.dataset.tab === 'weekly') {
+                            this.updateWeeklyDataDisplay();
+                        } else if (btn.dataset.tab === 'monthly') {
+                            this.updateMonthlyDataDisplay();
+                        }
+                    });
+                });
+
+                // Date selection changes
+                DOM.dailyDateSelect.addEventListener('change', () => this.updateDailyDataDisplay());
+                DOM.weeklyDateSelect.addEventListener('change', () => this.updateWeeklyDataDisplay());
+                DOM.monthlyDateSelect.addEventListener('change', () => this.updateMonthlyDataDisplay());
+
+                // Close button
+                DOM.closeDataTracking.addEventListener('click', () => {
+                    document.getElementById('dataTrackingPanel').classList.remove('show');
+                });
+            },
+
+            loadData() {
+                const savedDailyData = localStorage.getItem('dailyData');
+                const savedWeeklyData = localStorage.getItem('weeklyData');
+                const savedMonthlyData = localStorage.getItem('monthlyData');
+                
+                STATE.dailyData = savedDailyData ? JSON.parse(savedDailyData) : {};
+                STATE.weeklyData = savedWeeklyData ? JSON.parse(savedWeeklyData) : {};
+                STATE.monthlyData = savedMonthlyData ? JSON.parse(savedMonthlyData) : {};
+            },
+
+            saveData() {
+                localStorage.setItem('dailyData', JSON.stringify(STATE.dailyData));
+                localStorage.setItem('weeklyData', JSON.stringify(STATE.weeklyData));
+                localStorage.setItem('monthlyData', JSON.stringify(STATE.monthlyData));
+            },
+
+            updateDailyData(projectId, workSeconds = 0, breakSeconds = 0, pomodoros = 0) {
+                const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+                
+                if (!STATE.dailyData[today]) {
+                    STATE.dailyData[today] = {
+                        date: today,
+                        projects: {},
+                        totalWork: 0,
+                        totalBreak: 0,
+                        totalPomodoros: 0
+                    };
+                }
+                
+                if (!STATE.dailyData[today].projects[projectId]) {
+                    STATE.dailyData[today].projects[projectId] = {
+                        workTime: 0,
+                        breakTime: 0,
+                        pomodoros: 0,
+                        name: STATE.projects.find(p => p.id === projectId)?.name || 'Unknown Project'
+                    };
+                }
+                
+                STATE.dailyData[today].projects[projectId].workTime += workSeconds;
+                STATE.dailyData[today].projects[projectId].breakTime += breakSeconds;
+                STATE.dailyData[today].projects[projectId].pomodoros += pomodoros;
+                
+                STATE.dailyData[today].totalWork += workSeconds;
+                STATE.dailyData[today].totalBreak += breakSeconds;
+                STATE.dailyData[today].totalPomodoros += pomodoros;
+                
+                // Update weekly data
+                this.updateWeeklyData(projectId, workSeconds, breakSeconds, pomodoros);
+                
+                this.saveData();
+            },
+
+            updateWeeklyData(projectId, workSeconds = 0, breakSeconds = 0, pomodoros = 0) {
+                const now = new Date();
+                const year = now.getFullYear();
+                const weekNumber = this.getWeekNumber(now);
+                const weekKey = `${year}-W${weekNumber.toString().padStart(2, '0')}`;
+                
+                if (!STATE.weeklyData[weekKey]) {
+                    STATE.weeklyData[weekKey] = {
+                        year,
+                        weekNumber,
+                        projects: {},
+                        totalWork: 0,
+                        totalBreak: 0,
+                        totalPomodoros: 0,
+                        daysWorked: new Set()
+                    };
+                }
+                
+                if (!STATE.weeklyData[weekKey].projects[projectId]) {
+                    STATE.weeklyData[weekKey].projects[projectId] = {
+                        workTime: 0,
+                        breakTime: 0,
+                        pomodoros: 0,
+                        name: STATE.projects.find(p => p.id === projectId)?.name || 'Unknown Project'
+                    };
+                }
+                
+                STATE.weeklyData[weekKey].projects[projectId].workTime += workSeconds;
+                STATE.weeklyData[weekKey].projects[projectId].breakTime += breakSeconds;
+                STATE.weeklyData[weekKey].projects[projectId].pomodoros += pomodoros;
+                
+                STATE.weeklyData[weekKey].totalWork += workSeconds;
+                STATE.weeklyData[weekKey].totalBreak += breakSeconds;
+                STATE.weeklyData[weekKey].totalPomodoros += pomodoros;
+                
+                // Mark today as a worked day
+                const today = new Date().toISOString().split('T')[0];
+                STATE.weeklyData[weekKey].daysWorked.add(today);
+                
+                // Update monthly data
+                this.updateMonthlyData(projectId, workSeconds, breakSeconds, pomodoros);
+                
+                this.saveData();
+            },
+
+            updateMonthlyData(projectId, workSeconds = 0, breakSeconds = 0, pomodoros = 0) {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = now.getMonth() + 1; // 1-12
+                const monthKey = `${year}-${month.toString().padStart(2, '0')}`;
+                
+                if (!STATE.monthlyData[monthKey]) {
+                    STATE.monthlyData[monthKey] = {
+                        year,
+                        month,
+                        projects: {},
+                        totalWork: 0,
+                        totalBreak: 0,
+                        totalPomodoros: 0,
+                        daysWorked: new Set()
+                    };
+                }
+                
+                if (!STATE.monthlyData[monthKey].projects[projectId]) {
+                    STATE.monthlyData[monthKey].projects[projectId] = {
+                        workTime: 0,
+                        breakTime: 0,
+                        pomodoros: 0,
+                        name: STATE.projects.find(p => p.id === projectId)?.name || 'Unknown Project'
+                    };
+                }
+                
+                STATE.monthlyData[monthKey].projects[projectId].workTime += workSeconds;
+                STATE.monthlyData[monthKey].projects[projectId].breakTime += breakSeconds;
+                STATE.monthlyData[monthKey].projects[projectId].pomodoros += pomodoros;
+                
+                STATE.monthlyData[monthKey].totalWork += workSeconds;
+                STATE.monthlyData[monthKey].totalBreak += breakSeconds;
+                STATE.monthlyData[monthKey].totalPomodoros += pomodoros;
+                
+                // Mark today as a worked day
+                const today = new Date().toISOString().split('T')[0];
+                STATE.monthlyData[monthKey].daysWorked.add(today);
+                
+                this.saveData();
+            },
+
+            getWeekNumber(date) {
+                const d = new Date(date);
+                d.setHours(0, 0, 0, 0);
+                d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+                const week1 = new Date(d.getFullYear(), 0, 4);
+                return 1 + Math.round(((d - week1) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+            },
+
+            formatTime(seconds) {
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const secs = seconds % 60;
+                return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            },
+
+            updateDateSelectors() {
+                // Update daily date selector
+                DOM.dailyDateSelect.innerHTML = '';
+                const dailyDates = Object.keys(STATE.dailyData).sort().reverse();
+                dailyDates.forEach(date => {
+                    const option = document.createElement('option');
+                    option.value = date;
+                    option.textContent = new Date(date).toLocaleDateString();
+                    DOM.dailyDateSelect.appendChild(option);
+                });
+                
+                // Update weekly date selector
+                DOM.weeklyDateSelect.innerHTML = '';
+                const weeklyKeys = Object.keys(STATE.weeklyData).sort().reverse();
+                weeklyKeys.forEach(key => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    const [year, week] = key.split('-W');
+                    option.textContent = `Week ${week}, ${year}`;
+                    DOM.weeklyDateSelect.appendChild(option);
+                });
+                
+                // Update monthly date selector
+                DOM.monthlyDateSelect.innerHTML = '';
+                const monthlyKeys = Object.keys(STATE.monthlyData).sort().reverse();
+                monthlyKeys.forEach(key => {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    const [year, month] = key.split('-');
+                    const monthName = new Date(year, parseInt(month) - 1, 1).toLocaleString('default', { month: 'long' });
+                    option.textContent = `${monthName} ${year}`;
+                    DOM.monthlyDateSelect.appendChild(option);
+                });
+            },
+
+            updateDailyDataDisplay() {
+                const selectedDate = DOM.dailyDateSelect.value;
+                if (!selectedDate || !STATE.dailyData[selectedDate]) {
+                    DOM.dailyDataBody.innerHTML = '<tr><td colspan="4">No data available for this date</td></tr>';
+                    DOM.dailyWorkSummary.textContent = '00:00:00';
+                    DOM.dailyBreakSummary.textContent = '00:00:00';
+                    DOM.dailyPomodorosSummary.textContent = '0';
+                    return;
+                }
+                
+                const dailyData = STATE.dailyData[selectedDate];
+                
+                // Update summary
+                DOM.dailyWorkSummary.textContent = this.formatTime(dailyData.totalWork);
+                DOM.dailyBreakSummary.textContent = this.formatTime(dailyData.totalBreak);
+                DOM.dailyPomodorosSummary.textContent = dailyData.totalPomodoros.toString();
+                
+                // Update table
+                DOM.dailyDataBody.innerHTML = '';
+                
+                Object.entries(dailyData.projects).forEach(([projectId, projectData]) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${projectData.name}</td>
+                        <td>${this.formatTime(projectData.workTime)}</td>
+                        <td>${this.formatTime(projectData.breakTime)}</td>
+                        <td>${projectData.pomodoros}</td>
+                    `;
+                    DOM.dailyDataBody.appendChild(row);
+                });
+            },
+
+            updateWeeklyDataDisplay() {
+                const selectedWeek = DOM.weeklyDateSelect.value;
+                if (!selectedWeek || !STATE.weeklyData[selectedWeek]) {
+                    DOM.weeklyDataBody.innerHTML = '<tr><td colspan="4">No data available for this week</td></tr>';
+                    DOM.weeklyWorkSummary.textContent = '00:00:00';
+                    DOM.weeklyBreakSummary.textContent = '00:00:00';
+                    DOM.weeklyPomodorosSummary.textContent = '0';
+                    DOM.weeklyDaysSummary.textContent = '0';
+                    return;
+                }
+                
+                const weeklyData = STATE.weeklyData[selectedWeek];
+                
+                // Update summary
+                DOM.weeklyWorkSummary.textContent = this.formatTime(weeklyData.totalWork);
+                DOM.weeklyBreakSummary.textContent = this.formatTime(weeklyData.totalBreak);
+                DOM.weeklyPomodorosSummary.textContent = weeklyData.totalPomodoros.toString();
+                DOM.weeklyDaysSummary.textContent = weeklyData.daysWorked.size.toString();
+                
+                // Update table
+                DOM.weeklyDataBody.innerHTML = '';
+                
+                Object.entries(weeklyData.projects).forEach(([projectId, projectData]) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${projectData.name}</td>
+                        <td>${this.formatTime(projectData.workTime)}</td>
+                        <td>${this.formatTime(projectData.breakTime)}</td>
+                        <td>${projectData.pomodoros}</td>
+                    `;
+                    DOM.weeklyDataBody.appendChild(row);
+                });
+            },
+
+            updateMonthlyDataDisplay() {
+                const selectedMonth = DOM.monthlyDateSelect.value;
+                if (!selectedMonth || !STATE.monthlyData[selectedMonth]) {
+                    DOM.monthlyDataBody.innerHTML = '<tr><td colspan="4">No data available for this month</td></tr>';
+                    DOM.monthlyWorkSummary.textContent = '00:00:00';
+                    DOM.monthlyBreakSummary.textContent = '00:00:00';
+                    DOM.monthlyPomodorosSummary.textContent = '0';
+                    DOM.monthlyDaysSummary.textContent = '0';
+                    return;
+                }
+                
+                const monthlyData = STATE.monthlyData[selectedMonth];
+                
+                // Update summary
+                DOM.monthlyWorkSummary.textContent = this.formatTime(monthlyData.totalWork);
+                DOM.monthlyBreakSummary.textContent = this.formatTime(monthlyData.totalBreak);
+                DOM.monthlyPomodorosSummary.textContent = monthlyData.totalPomodoros.toString();
+                DOM.monthlyDaysSummary.textContent = monthlyData.daysWorked.size.toString();
+                
+                // Update table
+                DOM.monthlyDataBody.innerHTML = '';
+                
+                Object.entries(monthlyData.projects).forEach(([projectId, projectData]) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${projectData.name}</td>
+                        <td>${this.formatTime(projectData.workTime)}</td>
+                        <td>${this.formatTime(projectData.breakTime)}</td>
+                        <td>${projectData.pomodoros}</td>
+                    `;
+                    DOM.monthlyDataBody.appendChild(row);
+                });
+            },
+
+            exportToWord(timePeriod) {
+                let title, data, summary;
+                
+                if (timePeriod === 'daily') {
+                    const selectedDate = DOM.dailyDateSelect.value;
+                    if (!selectedDate || !STATE.dailyData[selectedDate]) return;
+                    
+                    data = STATE.dailyData[selectedDate];
+                    title = `Daily Report - ${new Date(selectedDate).toLocaleDateString()}`;
+                    
+                    summary = [
+                        `Total Work Time: ${this.formatTime(data.totalWork)}`,
+                        `Total Break Time: ${this.formatTime(data.totalBreak)}`,
+                        `Pomodoros Completed: ${data.totalPomodoros}`
+                    ];
+                } else if (timePeriod === 'weekly') {
+                    const selectedWeek = DOM.weeklyDateSelect.value;
+                    if (!selectedWeek || !STATE.weeklyData[selectedWeek]) return;
+                    
+                    data = STATE.weeklyData[selectedWeek];
+                    const [year, week] = selectedWeek.split('-W');
+                    title = `Weekly Report - Week ${week}, ${year}`;
+                    
+                    summary = [
+                        `Total Work Time: ${this.formatTime(data.totalWork)}`,
+                        `Total Break Time: ${this.formatTime(data.totalBreak)}`,
+                        `Pomodoros Completed: ${data.totalPomodoros}`,
+                        `Days Worked: ${data.daysWorked.size}`
+                    ];
+                } else if (timePeriod === 'monthly') {
+                    const selectedMonth = DOM.monthlyDateSelect.value;
+                    if (!selectedMonth || !STATE.monthlyData[selectedMonth]) return;
+                    
+                    data = STATE.monthlyData[selectedMonth];
+                    const [year, month] = selectedMonth.split('-');
+                    const monthName = new Date(year, parseInt(month) - 1, 1).toLocaleString('default', { month: 'long' });
+                    title = `Monthly Report - ${monthName} ${year}`;
+                    
+                    summary = [
+                        `Total Work Time: ${this.formatTime(data.totalWork)}`,
+                        `Total Break Time: ${this.formatTime(data.totalBreak)}`,
+                        `Pomodoros Completed: ${data.totalPomodoros}`,
+                        `Days Worked: ${data.daysWorked.size}`
+                    ];
+                } else {
+                    return;
+                }
+                
+                // Create HTML content for the Word document
+                let htmlContent = `
+                    <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+                    <head>
+                        <title>${title}</title>
+                        <style>
+                            body { font-family: Arial, sans-serif; }
+                            h1 { color: #2e6c80; }
+                            table { border-collapse: collapse; width: 100%; }
+                            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                            th { background-color: #f2f2f2; }
+                        </style>
+                    </head>
+                    <body>
+                        <h1>${title}</h1>
+                        <h2>Summary</h2>
+                        <ul>
+                            ${summary.map(item => `<li>${item}</li>`).join('')}
+                        </ul>
+                        <h2>Project Details</h2>
+                        <table>
+                            <tr>
+                                <th>Project</th>
+                                <th>Work Time</th>
+                                <th>Break Time</th>
+                                <th>Pomodoros</th>
+                            </tr>
+                `;
+                
+                // Add project rows
+                Object.entries(data.projects).forEach(([projectId, projectData]) => {
+                    htmlContent += `
+                        <tr>
+                            <td>${projectData.name}</td>
+                            <td>${this.formatTime(projectData.workTime)}</td>
+                            <td>${this.formatTime(projectData.breakTime)}</td>
+                            <td>${projectData.pomodoros}</td>
+                        </tr>
+                    `;
+                });
+                
+                htmlContent += `
+                        </table>
+                    </body>
+                    </html>
+                `;
+                
+                // Create a Blob with the HTML content
+                const blob = new Blob(['\ufeff', htmlContent], {
+                    type: 'application/msword'
+                });
+                
+                // Create download link
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${title.replace(/ /g, '_')}.doc`;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            }
+        };
+
         // ========== Celebration Functions ==========
         const celebrationActions = {
             triggerCelebration() {
@@ -2524,8 +2853,8 @@
                     info: document.getElementById('infoPanel'),
                     productivity: document.getElementById('productivityPanel'),
                     sounds: document.getElementById('soundsPanel'),
-                    music: document.getElementById('musicPanel'),
                     rewards: document.getElementById('rewardsPanel'),
+                    dataTracking: document.getElementById('dataTrackingPanel'),
                     donate: document.getElementById('donatePanel')
                 };
                 
@@ -2534,8 +2863,8 @@
                     info: document.getElementById('closeInfo'),
                     productivity: document.getElementById('closeProductivity'),
                     sounds: document.getElementById('closeSounds'),
-                    music: document.getElementById('closeMusic'),
                     rewards: document.getElementById('closeRewards'),
+                    dataTracking: document.getElementById('closeDataTracking'),
                     donate: document.getElementById('closeDonate')
                 };
                 
@@ -2579,6 +2908,12 @@
                         // Show selected panel
                         if (panels[panelName]) {
                             panels[panelName].classList.add('show');
+                            
+                            // If it's the data tracking panel, update the display
+                            if (panelName === 'dataTracking') {
+                                dataTracking.updateDateSelectors();
+                                dataTracking.updateDailyDataDisplay();
+                            }
                         }
                         
                         // Close the dropdown
@@ -2611,7 +2946,7 @@
                         
                         // Stop all other sounds
                         document.querySelectorAll('audio').forEach(audio => {
-                            if (audio !== currentSound && audio !== DOM.alarmSound && audio !== DOM.applauseSound && audio !== DOM.lofiPlayer) {
+                            if (audio !== currentSound && audio !== DOM.alarmSound && audio !== DOM.applauseSound) {
                                 audio.pause();
                                 audio.currentTime = 0;
                             }
@@ -2663,9 +2998,7 @@
                 volumeControl.addEventListener('input', () => {
                     const volume = volumeControl.value;
                     document.querySelectorAll('audio').forEach(audio => {
-                        if (audio !== DOM.lofiPlayer) {
-                            audio.volume = volume;
-                        }
+                        audio.volume = volume;
                     });
                 });
                 
@@ -3235,11 +3568,11 @@
             // Initialize dropdown menu
             dropdownActions.init();
             
-            // Initialize music player
-            musicPlayer.init();
-            
             // Initialize rewards system
             rewardsSystem.init();
+            
+            // Initialize data tracking
+            dataTracking.init();
         }
 
         function init() {
