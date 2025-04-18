@@ -599,6 +599,42 @@
             overflow-y: auto;
         }
         
+        .sounds-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        
+        .sounds-tab-btn {
+            padding: 8px 12px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .sounds-tab-btn:hover {
+            color: #673ab7;
+        }
+        
+        .sounds-tab-btn.active {
+            color: #673ab7;
+            border-bottom-color: #673ab7;
+            font-weight: bold;
+        }
+        
+        .sounds-tab-content {
+            display: none;
+            padding: 10px 0;
+        }
+        
+        .sounds-tab-content.active {
+            display: block;
+        }
+        
         .sound-option {
             padding: 8px 0;
             cursor: pointer;
@@ -612,7 +648,7 @@
         .sound-controls {
             display: flex;
             align-items: center;
-            gap: 10px; /* Adjust spacing between the button and the volume bar */
+            gap: 10px;
             margin-top: 15px;
         }
         
@@ -1166,25 +1202,45 @@
         <button class="close-btn" id="closeSounds">×</button>
         <h3>Background Sounds</h3>
         
-        <div class="sound-option" data-sound="meditationBowls">🪘 Meditation Bowls</div>
-        <div class="sound-option" data-sound="rain">🌧️ Rain</div>
-        <div class="sound-option" data-sound="forest">🌲 Forest</div>
-        <div class="sound-option" data-sound="waves">🌊 Ocean Waves</div>
-        <div class="sound-option" data-sound="coffee">☕ Coffee Shop</div>
-        <div class="sound-option" data-sound="whitenoise">⚪ White Noise</div>
-        <div class="sound-option" data-sound="pinknoise">🌸 Pink Noise</div>
-        <div class="sound-option" data-sound="brownnoise">🟤 Brown Noise</div>
-        <div class="sound-option" data-sound="fan">🌀 Fan Noise</div>
-        <div class="sound-option" data-sound="thunder">⚡ Thunderstorm</div>
-        <div class="sound-option" data-sound="river">🌊 River Stream</div>
-        <div class="sound-option" data-sound="birds">🐦 Birds Chirping</div>
-        <div class="sound-option" data-sound="fireplace">🔥 Fireplace</div>
-        <div class="sound-option" data-sound="city">🏙️ City Ambience</div>
-        <div class="sound-option" data-sound="wind">🌬️ Wind</div>
-        <div class="sound-option" data-sound="crickets">🦗 Crickets</div>
-        <div class="sound-option" data-sound="waterfall">🌊 Waterfall</div>
-        <div class="sound-option" data-sound="library">📚 Library</div>
-        <div class="sound-option" data-sound="rainroof">☔ Rain on Roof</div>
+        <div class="sounds-tabs">
+            <button class="sounds-tab-btn active" data-tab="background">Background</button>
+            <button class="sounds-tab-btn" data-tab="lofi">Lofi</button>
+        </div>
+        
+        <div class="sounds-tab-content active" id="background-tab">
+            <div class="sound-option" data-sound="meditationBowls">🪘 Meditation Bowls</div>
+            <div class="sound-option" data-sound="rain">🌧️ Rain</div>
+            <div class="sound-option" data-sound="forest">🌲 Forest</div>
+            <div class="sound-option" data-sound="waves">🌊 Ocean Waves</div>
+            <div class="sound-option" data-sound="coffee">☕ Coffee Shop</div>
+            <div class="sound-option" data-sound="whitenoise">⚪ White Noise</div>
+            <div class="sound-option" data-sound="pinknoise">🌸 Pink Noise</div>
+            <div class="sound-option" data-sound="brownnoise">🟤 Brown Noise</div>
+            <div class="sound-option" data-sound="fan">🌀 Fan Noise</div>
+            <div class="sound-option" data-sound="thunder">⚡ Thunderstorm</div>
+            <div class="sound-option" data-sound="river">🌊 River Stream</div>
+            <div class="sound-option" data-sound="birds">🐦 Birds Chirping</div>
+            <div class="sound-option" data-sound="fireplace">🔥 Fireplace</div>
+            <div class="sound-option" data-sound="city">🏙️ City Ambience</div>
+            <div class="sound-option" data-sound="wind">🌬️ Wind</div>
+            <div class="sound-option" data-sound="crickets">🦗 Crickets</div>
+            <div class="sound-option" data-sound="waterfall">🌊 Waterfall</div>
+            <div class="sound-option" data-sound="library">📚 Library</div>
+            <div class="sound-option" data-sound="rainroof">☔ Rain on Roof</div>
+        </div>
+        
+        <div class="sounds-tab-content" id="lofi-tab">
+            <div class="sound-option" data-sound="lofi1">🎵 Lofi Study Beats 1</div>
+            <div class="sound-option" data-sound="lofi2">🎵 Lofi Study Beats 2</div>
+            <div class="sound-option" data-sound="lofi3">🎵 Lofi Study Beats 3</div>
+            <div class="sound-option" data-sound="lofi4">🎵 Lofi Study Beats 4</div>
+            <div class="sound-option" data-sound="lofi5">🎵 Lofi Study Beats 5</div>
+            <div class="sound-option" data-sound="lofi6">🎵 Lofi Study Beats 6</div>
+            <div class="sound-option" data-sound="lofi7">🎵 Lofi Study Beats 7</div>
+            <div class="sound-option" data-sound="lofi8">🎵 Lofi Study Beats 8</div>
+            <div class="sound-option" data-sound="lofi9">🎵 Lofi Study Beats 9</div>
+            <div class="sound-option" data-sound="lofi10">🎵 Lofi Study Beats 10</div>
+        </div>
         
         <div class="sound-controls">
             <button id="soundToggle" class="sound-toggle-btn">▶️</button>
@@ -1667,6 +1723,17 @@
     <audio id="waterfallSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/waterfall.wav?raw=true"></audio>
     <audio id="librarySound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/library.wav?raw=true"></audio>
     <audio id="rainroofSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/rain-roof.wav?raw=true"></audio>
+    <!-- Lofi audio elements -->
+    <audio id="lofi1Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-1.wav?raw=true"></audio>
+    <audio id="lofi2Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-2.wav?raw=true"></audio>
+    <audio id="lofi3Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-3.wav?raw=true"></audio>
+    <audio id="lofi4Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-4.wav?raw=true"></audio>
+    <audio id="lofi5Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-5.wav?raw=true"></audio>
+    <audio id="lofi6Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-6.wav?raw=true"></audio>
+    <audio id="lofi7Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-7.wav?raw=true"></audio>
+    <audio id="lofi8Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-8.wav?raw=true"></audio>
+    <audio id="lofi9Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-9.wav?raw=true"></audio>
+    <audio id="lofi10Sound" loop src="https://media.githubusercontent.com/media/DrTHunter/MediaLibraryBackgroundMusic/refs/heads/main/tracks/lofi/lofi-study-10.wav?raw=true"></audio>
     <audio id="alarmSound" src="assets/sounds/alarm.wav" preload="auto"></audio>
     <audio id="applauseSound" src="assets/sounds/applause.mp3" preload="auto"></audio>
 
@@ -3008,6 +3075,17 @@
                         if (audio === currentSound) {
                             soundToggle.textContent = '▶️';
                         }
+                    });
+                });
+
+                // Sound tab switching
+                document.querySelectorAll('.sounds-tab-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.sounds-tab-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.sounds-tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        btn.classList.add('active');
+                        document.getElementById(`${btn.dataset.tab}-tab`).classList.add('active');
                     });
                 });
             }
