@@ -1429,10 +1429,8 @@
                         <div class="reward-icon">🏅</div>
                         <h5>Weekly Warrior</h5>
                         <p>Complete all weekly rewards</p>
-                        <div class="reward-progress">
-                            <div class="progress-bar"><div style="width: 0%"></div></div>
-                            <span>0/6</span>
-                        </div>
+                        <div class="progress-bar"><div style="width: 0%"></div></div>
+                        <span>0/6</span>
                     </div>
                     
                     <div class="reward-card" data-id="monthly-7">
@@ -1674,42 +1672,7 @@
         </div>
     </div>
 
-    <!-- Reward Achievement<button class="close-btn" id="closeDonate">×</button>
-        <h3>Support This Project</h3>
-        <p>Enjoying this Pomodoro timer? Buy me a coffee!</p>
-        
-        <a href="https://www.paypal.com/donate?business=YOUR_EMAIL&item_name=Pomodoro+Timer+Support" 
-           target="_blank" 
-           class="donate-option">
-           💳 PayPal
-        </a>
-        
-        <a href="https://ko-fi.com/YOUR_USERNAME" 
-           target="_blank" 
-           class="donate-option">
-           ☕ Ko-fi
-        </a>
-        
-        <a href="https://www.buymeacoffee.com/YOUR_USERNAME" 
-           target="_blank" 
-           class="donate-option">
-           🍵 Buy Me a Coffee
-        </a>
-    </div>
-
-    <!-- Project Warning Modal -->
-    <div id="projectWarningModal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <h3>⚠️ No Project Selected</h3>
-            <p>You haven't selected a project to track your time. Would you like to:</p>
-            <div class="modal-options">
-                <button id="selectProjectBtn">Select a Project</button>
-                <button id="startWithoutProjectBtn">Start Without Tracking</button>
-            </div>
-        </div>
-    </div>
-
- Modal -->
+    <!-- Reward Achievement Modal -->
     <div class="reward-modal" id="rewardModal">
         <div class="reward-modal-content">
             <button class="reward-modal-close" id="closeRewardModal">×</button>
@@ -2742,6 +2705,8 @@
                     const [year, week] = selectedWeek.split('-W');
                     title = `Weekly Report - Week ${week}, ${year}`;
                     
+                    summary = [
+                        `Total Work Time: ${this.formatTime(data.totalWork)}`,
                     summary = [
                         `Total Work Time: ${this.formatTime(data.totalWork)}`,
                         `Total Break Time: ${this.formatTime(data.totalBreak)}`,
