@@ -2343,18 +2343,18 @@
             
             renderProjects() {
                 DOM.projectList.innerHTML = '';
-                
+
                 const formatProjectTime = (seconds) => {
                     const hours = Math.floor(seconds / 3600);
                     const minutes = Math.floor((seconds % 3600) / 60);
                     return `${hours}h ${minutes}m`;
                 };
-                
+
                 STATE.projects.forEach(project => {
                     const projectItem = document.createElement('div');
                     projectItem.className = `project-item ${project.id === STATE.currentProject ? 'selected' : ''}`;
                     projectItem.dataset.id = project.id;
-                    
+
                     projectItem.innerHTML = `
                         <div class="project-main-content">
                             <div class="project-name editable" contenteditable="true">${project.name}</div>
@@ -2382,41 +2382,47 @@
                             <textarea class="project-notes" placeholder="Add notes about this project...">${project.notes || ''}</textarea>
                         </div>
                     `;
-                    
+
                     DOM.projectList.appendChild(projectItem);
-                    
+
                     const notesToggle = projectItem.querySelector('.project-notes-toggle');
                     const notesTextarea = projectItem.querySelector('.project-notes');
-                    
+
                     // Initialize notes as hidden
                     notesTextarea.style.display = 'none';
-                    
+
                     notesToggle.addEventListener('click', () => {
                         const isExpanded = notesTextarea.style.display === 'block';
                         notesTextarea.style.display = isExpanded ? 'none' : 'block';
                         notesToggle.classList.toggle('expanded');
                     });
-                    
+
                     notesTextarea.addEventListener('blur', () => {
                         project.notes = notesTextarea.value;
                         this.saveProjects();
                     });
-                    
+
+                    // Automatically resize the textarea as the user types
+                    notesTextarea.addEventListener('input', () => {
+                        notesTextarea.style.height = 'auto'; // Reset height to calculate the new height
+                        notesTextarea.style.height = `${notesTextarea.scrollHeight}px`; // Set height based on content
+                    });
+
                     const nameEditable = projectItem.querySelector('.project-name');
                     const pomodoroEditable = projectItem.querySelector('.project-stat:nth-child(1) .editable');
                     const breakEditable = projectItem.querySelector('.project-stat:nth-child(2) .editable');
-                    
+
                     nameEditable.addEventListener('blur', () => {
                         project.name = nameEditable.textContent;
                         this.saveProjects();
                     });
-                    
+
                     pomodoroEditable.addEventListener('blur', () => {
                         const value = parseInt(pomodoroEditable.textContent) || 0;
                         project.pomodoros = value;
                         this.saveProjects();
                     });
-                    
+
                     breakEditable.addEventListener('blur', () => {
                         const value = parseInt(breakEditable.textContent) || 0;
                         project.breaks = value;
