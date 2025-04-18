@@ -1095,6 +1095,41 @@
             font-size: 16px;
             font-weight: bold;
         }
+
+        .sounds-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        .sounds-tab-btn {
+            padding: 10px 15px;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.3s;
+        }
+
+        .sounds-tab-btn:hover {
+            color: #673ab7;
+        }
+
+        .sounds-tab-btn.active {
+            color: #673ab7;
+            border-bottom-color: #673ab7;
+            font-weight: bold;
+        }
+
+        .sounds-tab-content {
+            display: none;
+        }
+
+        .sounds-tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -1165,27 +1200,29 @@
     <div class="panel sounds-panel" id="soundsPanel">
         <button class="close-btn" id="closeSounds">×</button>
         <h3>Background Sounds</h3>
-        
-        <div class="sound-option" data-sound="meditationBowls">🪘 Meditation Bowls</div>
-        <div class="sound-option" data-sound="rain">🌧️ Rain</div>
-        <div class="sound-option" data-sound="forest">🌲 Forest</div>
-        <div class="sound-option" data-sound="waves">🌊 Ocean Waves</div>
-        <div class="sound-option" data-sound="coffee">☕ Coffee Shop</div>
-        <div class="sound-option" data-sound="whitenoise">⚪ White Noise</div>
-        <div class="sound-option" data-sound="pinknoise">🌸 Pink Noise</div>
-        <div class="sound-option" data-sound="brownnoise">🟤 Brown Noise</div>
-        <div class="sound-option" data-sound="fan">🌀 Fan Noise</div>
-        <div class="sound-option" data-sound="thunder">⚡ Thunderstorm</div>
-        <div class="sound-option" data-sound="river">🌊 River Stream</div>
-        <div class="sound-option" data-sound="birds">🐦 Birds Chirping</div>
-        <div class="sound-option" data-sound="fireplace">🔥 Fireplace</div>
-        <div class="sound-option" data-sound="city">🏙️ City Ambience</div>
-        <div class="sound-option" data-sound="wind">🌬️ Wind</div>
-        <div class="sound-option" data-sound="crickets">🦗 Crickets</div>
-        <div class="sound-option" data-sound="waterfall">🌊 Waterfall</div>
-        <div class="sound-option" data-sound="library">📚 Library</div>
-        <div class="sound-option" data-sound="rainroof">☔ Rain on Roof</div>
-        
+
+        <!-- Sub-tabs -->
+        <div class="sounds-tabs">
+            <button class="sounds-tab-btn active" data-tab="backgroundSounds">Background Sounds</button>
+            <button class="sounds-tab-btn" data-tab="lofiSounds">Lofi</button>
+        </div>
+
+        <!-- Sub-tab content -->
+        <div class="sounds-tab-content active" id="backgroundSounds">
+            <div class="sound-option" data-sound="meditationBowls">🪘 Meditation Bowls</div>
+            <div class="sound-option" data-sound="rain">🌧️ Rain</div>
+            <div class="sound-option" data-sound="forest">🌲 Forest</div>
+            <div class="sound-option" data-sound="waves">🌊 Ocean Waves</div>
+            <div class="sound-option" data-sound="coffee">☕ Coffee Shop</div>
+        </div>
+
+        <div class="sounds-tab-content" id="lofiSounds">
+            <div class="sound-option" data-sound="lofi1">🎵 Lofi Beats 1</div>
+            <div class="sound-option" data-sound="lofi2">🎵 Lofi Beats 2</div>
+            <div class="sound-option" data-sound="lofi3">🎵 Lofi Beats 3</div>
+            <div class="sound-option" data-sound="lofi4">🎵 Lofi Beats 4</div>
+        </div>
+
         <div class="sound-controls">
             <button id="soundToggle" class="sound-toggle-btn">▶️</button>
             <input type="range" min="0" max="1" step="0.1" value="0.5" class="volume-control" id="volumeControl">
@@ -1602,7 +1639,7 @@
 
     <!-- Donate Panel -->
     <div class="panel donate-panel" id="donatePanel">
-        <button class="close-btn" id="closeDonate">×</button>
+    <button class="close-btn" id="closeDonate">×</button>
         <h3>Support This Project</h3>
         <p>Enjoying this Pomodoro timer? Buy me a coffee!</p>
         
@@ -1637,7 +1674,42 @@
         </div>
     </div>
 
-    <!-- Reward Achievement Modal -->
+    <!-- Reward Achievement<button class="close-btn" id="closeDonate">×</button>
+        <h3>Support This Project</h3>
+        <p>Enjoying this Pomodoro timer? Buy me a coffee!</p>
+        
+        <a href="https://www.paypal.com/donate?business=YOUR_EMAIL&item_name=Pomodoro+Timer+Support" 
+           target="_blank" 
+           class="donate-option">
+           💳 PayPal
+        </a>
+        
+        <a href="https://ko-fi.com/YOUR_USERNAME" 
+           target="_blank" 
+           class="donate-option">
+           ☕ Ko-fi
+        </a>
+        
+        <a href="https://www.buymeacoffee.com/YOUR_USERNAME" 
+           target="_blank" 
+           class="donate-option">
+           🍵 Buy Me a Coffee
+        </a>
+    </div>
+
+    <!-- Project Warning Modal -->
+    <div id="projectWarningModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h3>⚠️ No Project Selected</h3>
+            <p>You haven't selected a project to track your time. Would you like to:</p>
+            <div class="modal-options">
+                <button id="selectProjectBtn">Select a Project</button>
+                <button id="startWithoutProjectBtn">Start Without Tracking</button>
+            </div>
+        </div>
+    </div>
+
+ Modal -->
     <div class="reward-modal" id="rewardModal">
         <div class="reward-modal-content">
             <button class="reward-modal-close" id="closeRewardModal">×</button>
@@ -1669,6 +1741,10 @@
     <audio id="rainroofSound" loop src="https://github.com/DrTHunter/Pomodoro-audio-saves/blob/main/assets/sounds/rain-roof.wav?raw=true"></audio>
     <audio id="alarmSound" src="assets/sounds/alarm.wav" preload="auto"></audio>
     <audio id="applauseSound" src="assets/sounds/applause.mp3" preload="auto"></audio>
+    <audio id="lofi1Sound" loop src="https://example.com/lofi1.mp3"></audio>
+    <audio id="lofi2Sound" loop src="https://example.com/lofi2.mp3"></audio>
+    <audio id="lofi3Sound" loop src="https://example.com/lofi3.mp3"></audio>
+    <audio id="lofi4Sound" loop src="https://example.com/lofi4.mp3"></audio>
 
     <div class="animal-side animal-left">
         <img class="animal-gif" id="leftAnimalGif" src="assets/working-dog-animation.gif" alt="Working animal">
